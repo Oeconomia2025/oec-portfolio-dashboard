@@ -1,0 +1,324 @@
+You are Replit Agent. Create a fresh Vite + React + TypeScript app with Tailwind and lucide-react, then add my dashboard component and run it.
+
+Project name: oeconomia-dashboard
+Stack: Vite (react-ts), TailwindCSS, lucide-react
+
+Steps (do each one explicitly):
+
+1) Initialize:
+- Run: npm create vite@latest oeconomia-dashboard -- --template react-ts
+- cd oeconomia-dashboard
+
+2) Install deps:
+- Run: npm i
+- Run: npm i lucide-react
+- Run: npm i -D tailwindcss postcss autoprefixer
+- Run: npx tailwindcss init -p
+
+3) Configure Tailwind (overwrite with these exact files):
+- tailwind.config.js
+--------------------------------
+/** @type {import('tailwindcss').Config} */
+export default {
+  darkMode: "class",
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  theme: { extend: {} },
+  plugins: [],
+};
+--------------------------------
+
+- postcss.config.js
+--------------------------------
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};
+--------------------------------
+
+- Create src/index.css (or overwrite if present):
+--------------------------------
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+--------------------------------
+
+4) Ensure CSS is imported and dark mode enabled:
+- Edit src/main.tsx to include: import "./index.css";
+- Edit index.html and add class="dark" on the <html> tag so the mockup renders in dark theme:
+  <html lang="en" class="dark">
+
+5) Add the dashboard component:
+- Make folder: src/components
+- Create file: src/components/OeconomiaDashboardMockup.tsx
+- Paste EXACT content below:
+--------------------------------
+import React from "react";
+import { Wallet, UserCircle2, Coins, Sigma, BarChart3, TrendingUp, Gauge, CheckCircle2, Layers, BadgePercent, PiggyBank } from "lucide-react";
+
+// Small helper for a tidy label/value row
+function InfoRow({ label, value, hint }: { label: string; value?: React.ReactNode; hint?: string }) {
+  return (
+    <div className="flex items-start justify-between gap-4 py-1">
+      <span className="text-sm text-gray-500 dark:text-gray-400">{label}</span>
+      <div className="text-right">
+        <div className="text-sm font-medium text-gray-900 dark:text-gray-100">{value ?? "—"}</div>
+        {hint ? <div className="text-[11px] text-gray-400 mt-0.5">{hint}</div> : null}
+      </div>
+    </div>
+  );
+}
+
+function StatTile({ icon, title, value, sub }: { icon?: React.ReactNode; title: string; value?: string; sub?: string }) {
+  return (
+    <div className="rounded-2xl border border-gray-200/70 dark:border-gray-800 bg-white/70 dark:bg-gray-900/60 backdrop-blur p-4 shadow-sm">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="h-8 w-8 rounded-xl border border-gray-200/60 dark:border-gray-700 grid place-items-center">
+            {icon}
+          </div>
+          <span className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">{title}</span>
+        </div>
+      </div>
+      <div className="mt-3 text-2xl font-semibold text-gray-900 dark:text-gray-100">{value ?? "—"}</div>
+      {sub ? <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{sub}</div> : null}
+    </div>
+  );
+}
+
+function SectionHeader({ icon, title, chip }: { icon?: React.ReactNode; title: string; chip?: React.ReactNode }) {
+  return (
+    <div className="flex items-center justify-between mt-8 mb-3">
+      <div className="flex items-center gap-2">
+        {icon}
+        <h2 className="text-lg font-semibold tracking-tight text-gray-900 dark:text-gray-100">{title}</h2>
+      </div>
+      {chip}
+    </div>
+  );
+}
+
+export default function OeconomiaDashboardMockup() {
+  return (
+    <div className="min-h-screen w-full bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900 text-gray-900 dark:text-gray-100">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+        <header className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-500 via-cyan-500 to-purple-500">
+                Oeconomia Dashboard
+              </span>
+            </h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Draft mockup • Replace placeholders with live on-chain data</p>
+          </div>
+          <button className="inline-flex items-center gap-2 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800">
+            <Wallet className="h-4 w-4" /> Connect Wallet
+          </button>
+        </header>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6">
+          <div className="lg:col-span-2 rounded-2xl border border-gray-200/70 dark:border-gray-800 bg-white/70 dark:bg-gray-900/60 backdrop-blur p-5 shadow-sm">
+            <div className="flex items-center gap-4">
+              <div className="h-16 w-16 rounded-2xl bg-gray-100 dark:bg-gray-800 grid place-items-center border border-gray-200/70 dark:border-gray-700">
+                <UserCircle2 className="h-9 w-9 text-gray-400" />
+              </div>
+              <div className="flex-1">
+                <div className="text-sm text-gray-500 dark:text-gray-400">Profile Name</div>
+                <div className="text-lg font-semibold">—</div>
+              </div>
+              <div className="hidden sm:block w-px h-10 bg-gray-200 dark:bg-gray-800" />
+              <div className="flex-1">
+                <div className="text-sm text-gray-500 dark:text-gray-400">Profile Image</div>
+                <div className="text-sm">Add / Upload Placeholder</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-gray-200/70 dark:border-gray-800 bg-white/70 dark:bg-gray-900/60 backdrop-blur p-5 shadow-sm">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <Wallet className="h-5 w-5 text-gray-500" />
+                <span className="text-sm font-medium">Wallet Status</span>
+              </div>
+              <div className="flex items-center gap-2 text-xs">
+                <span className="inline-flex items-center gap-1 rounded-full border px-2 py-1 border-gray-200 dark:border-gray-700">
+                  <span className="h-2 w-2 rounded-full bg-gray-400" />
+                  Not Connected
+                </span>
+              </div>
+            </div>
+            <InfoRow label="Wallet Address" value="—" hint="0x1234…abcd" />
+          </div>
+        </div>
+
+        <SectionHeader
+          icon={<Coins className="h-5 w-5 text-teal-500" />}
+          title="Oeconomia – Portfolio Rollup"
+          chip={<span className="text-xs rounded-full border border-gray-200 dark:border-gray-700 px-2 py-1">[wallet • stakes • unclaimed]</span>}
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+          <StatTile icon={<BarChart3 className="h-4 w-4" />} title="Net Total Worth" value="$—" sub="Breakdown: [wallet, stakes, unclaimed]" />
+          <StatTile icon={<TrendingUp className="h-4 w-4" />} title="Profit / Loss" value="—% / $—" sub="Since first buy" />
+          <StatTile icon={<Sigma className="h-4 w-4" />} title="Bought / Sold" value="— / —" sub="Lifetime units" />
+          <StatTile icon={<CheckCircle2 className="h-4 w-4" />} title="Health" value="—" sub="e.g., diversification / risk" />
+        </div>
+
+        <SectionHeader icon={<Coins className="h-5 w-5 text-cyan-500" />} title="OEC" chip={<span className="text-xs rounded-full border border-gray-200 dark:border-gray-700 px-2 py-1">Price: $—</span>} />
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="rounded-2xl border border-gray-200/70 dark:border-gray-800 bg-white/70 dark:bg-gray-900/60 backdrop-blur p-5 shadow-sm">
+            <div className="flex items-center gap-2 mb-2">
+              <Gauge className="h-5 w-5 text-cyan-500" />
+              <h3 className="font-semibold">Governance</h3>
+            </div>
+            <InfoRow label="Level" value="—" />
+            <InfoRow label="Worth" value="$—" />
+          </div>
+
+          <div className="rounded-2xl border border-gray-200/70 dark:border-gray-800 bg-white/70 dark:bg-gray-900/60 backdrop-blur p-5 shadow-sm">
+            <div className="flex items-center gap-2 mb-2">
+              <PiggyBank className="h-5 w-5 text-cyan-500" />
+              <h3 className="font-semibold">Wallet</h3>
+            </div>
+            <InfoRow label="Amount" value="— OEC" />
+            <InfoRow label="Worth" value="$—" />
+          </div>
+
+          <div className="rounded-2xl border border-gray-200/70 dark:border-gray-800 bg-white/70 dark:bg-gray-900/60 backdrop-blur p-5 shadow-sm">
+            <div className="flex items-center gap-2 mb-2">
+              <Layers className="h-5 w-5 text-cyan-500" />
+              <h3 className="font-semibold">Stake</h3>
+            </div>
+            <InfoRow label="# Active" value="—" />
+            <InfoRow label="Yield to Date" value="— OEC" />
+            <InfoRow label="Unclaimed Rewards" value="— OEC" />
+          </div>
+        </div>
+
+        <SectionHeader icon={<Coins className="h-5 w-5 text-purple-500" />} title="ELOQ" chip={<span className="text-xs rounded-full border border-gray-200 dark:border-gray-700 px-2 py-1">Price: $—</span>} />
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="rounded-2xl border border-gray-200/70 dark:border-gray-800 bg-white/70 dark:bg-gray-900/60 backdrop-blur p-5 shadow-sm">
+            <div className="flex items-center gap-2 mb-2">
+              <PiggyBank className="h-5 w-5 text-purple-500" />
+              <h3 className="font-semibold">Wallet</h3>
+            </div>
+            <InfoRow label="Amount" value="— ELOQ" />
+            <InfoRow label="Worth" value="$—" />
+          </div>
+
+          <div className="rounded-2xl border border-gray-200/70 dark:border-gray-800 bg-white/70 dark:bg-gray-900/60 backdrop-blur p-5 shadow-sm">
+            <div className="flex items-center gap-2 mb-2">
+              <CheckCircle2 className="h-5 w-5 text-purple-500" />
+              <h3 className="font-semibold">Stake (Solo)</h3>
+            </div>
+            <InfoRow label="Solo Amount" value="— ELOQ" />
+            <InfoRow label="Yield to Date" value="— ELOQ" />
+            <InfoRow label="Unclaimed Rewards" value="— ELOQ" />
+          </div>
+
+          <div className="rounded-2xl border border-gray-200/70 dark:border-gray-800 bg-white/70 dark:bg-gray-900/60 backdrop-blur p-5 shadow-sm">
+            <div className="flex items-center gap-2 mb-2">
+              <BadgePercent className="h-5 w-5 text-purple-500" />
+              <h3 className="font-semibold">Farm / Liquidity</h3>
+            </div>
+            <InfoRow label="# of Pools" value="—" />
+            <InfoRow label="Total Rate – all Pools" value="— % APY" />
+            <InfoRow label="Unclaimed Rewards" value="— ELOQ" />
+          </div>
+        </div>
+
+        <div className="mt-8 grid grid-cols-1 xl:grid-cols-2 gap-4">
+          <div className="rounded-2xl border border-gray-200/70 dark:border-gray-800 bg-white/70 dark:bg-gray-900/60 backdrop-blur p-5 shadow-sm">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="font-semibold">Stakes – Detail</h3>
+              <span className="text-xs text-gray-500">mock data</span>
+            </div>
+            <div className="overflow-hidden rounded-xl border border-gray-100 dark:border-gray-800">
+              <table className="w-full text-sm">
+                <thead className="bg-gray-50 dark:bg-gray-800/60 text-gray-500">
+                  <tr>
+                    <th className="text-left p-3">Pool</th>
+                    <th className="text-left p-3">Token</th>
+                    <th className="text-right p-3">Amount</th>
+                    <th className="text-right p-3">Yield to Date</th>
+                    <th className="text-right p-3">Unclaimed</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[1, 2, 3].map((i) => (
+                    <tr key={i} className="border-t border-gray-100 dark:border-gray-800">
+                      <td className="p-3">—</td>
+                      <td className="p-3">—</td>
+                      <td className="p-3 text-right">—</td>
+                      <td className="p-3 text-right">—</td>
+                      <td className="p-3 text-right">—</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-gray-200/70 dark:border-gray-800 bg-white/70 dark:bg-gray-900/60 backdrop-blur p-5 shadow-sm">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="font-semibold">Transactions – Bought / Sold</h3>
+              <span className="text-xs text-gray-500">mock data</span>
+            </div>
+            <div className="overflow-hidden rounded-xl border border-gray-100 dark:border-gray-800">
+              <table className="w-full text-sm">
+                <thead className="bg-gray-50 dark:bg-gray-800/60 text-gray-500">
+                  <tr>
+                    <th className="text-left p-3">Date</th>
+                    <th className="text-left p-3">Action</th>
+                    <th className="text-right p-3">Units</th>
+                    <th className="text-right p-3">Price</th>
+                    <th className="text-right p-3">Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[1, 2, 3].map((i) => (
+                    <tr key={i} className="border-t border-gray-100 dark:border-gray-800">
+                      <td className="p-3">—</td>
+                      <td className="p-3">—</td>
+                      <td className="p-3 text-right">—</td>
+                      <td className="p-3 text-right">—</td>
+                      <td className="p-3 text-right">—</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <p className="text-xs text-gray-400 mt-6">
+          Fields included: Profile Image/Name • Wallet Connected/Address • Oeconomia Net Total Worth [wallet, stakes, unclaimed] • Profit/Loss • Bought/Sold • OEC Price • Governance Level/Worth • Wallet Amount/Worth • Stake (# Active, Yield to Date, Unclaimed Rewards) • ELOQ Price • Wallet Amount/Worth • Stake (Solo Amount, Yield to Date, Unclaimed Rewards) • Farm/Liq (# of Pools, Total Rate all Pools, Unclaimed Rewards)
+        </p>
+      </div>
+    </div>
+  );
+}
+--------------------------------
+
+6) Render it:
+- Overwrite src/App.tsx with:
+--------------------------------
+import OeconomiaDashboardMockup from "./components/OeconomiaDashboardMockup";
+
+export default function App() {
+  return <OeconomiaDashboardMockup />;
+}
+--------------------------------
+
+7) Run the app:
+- Command: npm run dev
+- Open the webview. You should see the styled dark dashboard with gradients and rounded cards.
+
+If anything fails with Tailwind init, still ensure:
+- tailwind.config.js and postcss.config.js are at project root,
+- src/index.css has @tailwind directives,
+- src/main.tsx imports "./index.css",
+- index.html has class="dark" on <html>.
