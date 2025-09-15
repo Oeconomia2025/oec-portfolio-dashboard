@@ -12,7 +12,7 @@ export const users = pgTable("users", {
 
 export const wallets = pgTable("wallets", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  userId: varchar("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  userId: varchar("user_id").references(() => users.id, { onDelete: "cascade" }),
   address: text("address").notNull().unique(),
   network: text("network").notNull().default("ethereum"),
   isConnected: boolean("is_connected").notNull().default(false),

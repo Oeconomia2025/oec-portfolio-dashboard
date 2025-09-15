@@ -47,14 +47,22 @@ app.use((req, res, next) => {
     throw err;
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
+  // Create separate Express sub-app for Vite to prevent API interception
+  const webApp = express();
+  
   if (app.get("env") === "development") {
-    await setupVite(app, server);
+    await setupVite(webApp, server);
   } else {
-    serveStatic(app);
+    serveStatic(webApp);
   }
+
+  // Gate web app: only handle non-API requests
+  app.use((req, res, next) => {
+    if (req.path.startsWith('/api')) {
+      return next(); // Let API routes handle it
+    }
+    return webApp(req, res, next); // Delegate to web app
+  });
 
   // ALWAYS serve the app on the port specified in the environment variable PORT
   // Other ports are firewalled. Default to 5000 if not specified.

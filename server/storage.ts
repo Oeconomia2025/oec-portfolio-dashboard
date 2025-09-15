@@ -41,6 +41,7 @@ export interface IStorage {
   getUserWallets(userId: string): Promise<Wallet[]>;
   createWallet(wallet: InsertWallet): Promise<Wallet>;
   updateWallet(id: string, updates: Partial<InsertWallet>): Promise<Wallet | undefined>;
+  deleteWallet(address: string): Promise<boolean>;
 
   // Token operations
   getToken(id: string): Promise<Token | undefined>;
@@ -127,6 +128,11 @@ export class DatabaseStorage implements IStorage {
       updatedAt: new Date()
     }).where(eq(wallets.id, id)).returning();
     return wallet || undefined;
+  }
+
+  async deleteWallet(address: string): Promise<boolean> {
+    const result = await db.delete(wallets).where(eq(wallets.address, address));
+    return result.rowCount > 0;
   }
 
   // Token operations

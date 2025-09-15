@@ -15,6 +15,7 @@ import {
   ArrowUpRight,
   Vote
 } from "lucide-react";
+import { useTokenPrices, usePortfolio, useStakingPositions, useWalletConnection, formatCurrency, formatPercentageChange } from "../hooks/useBlockchainData";
 
 interface PortfolioData {
   netWorth: string;
@@ -150,73 +151,50 @@ export default function OeconomiaDashboard() {
     network: "Ethereum"
   });
 
-  const [portfolioData, setPortfolioData] = useState<PortfolioData>({
-    netWorth: "Loading...",
-    pnl: "Loading...",
-    pnlPercentage: "Loading...",
-    totalTrades: 0,
-    healthScore: "Loading..."
-  });
+  // Fetch real blockchain data
+  const { data: tokenPrices = {}, isLoading: pricesLoading } = useTokenPrices();
+  const { data: portfolioData, isLoading: portfolioLoading } = usePortfolio(walletData.address);
+  const { data: stakingData, isLoading: stakingLoading } = useStakingPositions(walletData.address);
+  const { connectWallet, disconnectWallet } = useWalletConnection();
 
-  const [oecData, setOecData] = useState<OECData>({
-    price: "Loading...",
-    wallet: {
-      amount: "Loading...",
-      worth: "Loading...",
-      change: "Loading..."
-    },
-    governance: {
-      level: "Loading...",
-      worth: "Loading...",
-      proposals: 0
-    },
-    staking: {
-      active: 0,
-      yield: "Loading...",
-      unclaimed: "Loading..."
-    }
-  });
-
-  const [eloqData, setEloqData] = useState<ELOQData>({
-    price: "Loading...",
-    wallet: {
-      amount: "Loading...",
-      worth: "Loading...",
-      change: "Loading..."
-    },
-    solo: {
-      amount: "Loading...",
-      yield: "Loading...",
-      unclaimed: "Loading..."
-    },
-    farming: {
-      pools: 0,
-      apy: "Loading...",
-      unclaimed: "Loading..."
-    }
-  });
-
-  const [stakes, setStakes] = useState<StakeData[]>([]);
-  const [transactions, setTransactions] = useState<TransactionData[]>([]);
+  // Extract price data for OEC and ELOQ
+  const oecPrice = tokenPrices.OEC || { price: 0, change24h: 0 };
+  const eloqPrice = tokenPrices.ELOQ || { price: 0, change24h: 0 };
 
   const handleWalletConnect = async () => {
     try {
-      // Wallet connection logic would go here
-      // For now, we'll show the connection state without mock data
-      setWalletData(prev => ({
-        ...prev,
-        isConnected: !prev.isConnected,
-        address: !prev.isConnected ? "0x1234...abcd" : ""
-      }));
+      if (walletData.isConnected) {
+        // Disconnect wallet
+        await disconnectWallet.mutateAsync({ address: walletData.address });
+        setWalletData(prev => ({
+          ...prev,
+          isConnected: false,
+          address: ""
+        }));
+      } else {
+        // Connect wallet (simulated for demo)
+        const mockAddress = "0x1234567890123456789012345678901234567890";
+        await connectWallet.mutateAsync({ address: mockAddress });
+        setWalletData(prev => ({
+          ...prev,
+          isConnected: true,
+          address: mockAddress
+        }));
+      }
     } catch (error) {
-      console.error("Failed to connect wallet:", error);
+      console.error("Failed to connect/disconnect wallet:", error);
     }
   };
 
-  useEffect(() => {
-    // Real data fetching would happen here
-    // Leaving empty states for production readiness
-  }, []);
+  // Calculate derived data with safe fallbacks
+  const netWorth = portfolioLoading ? "Loading..." : 
+    (portfolioData && typeof portfolioData.netWorth === 'number') ? formatCurrency(portfolioData.netWorth) : "—";
+  const healthScore = portfolioLoading ? "Loading..." : (portfolioData?.healthScore || "—");
+  const lastUpdated = portfolioLoading ? "Loading..." : 
+    (portfolioData?.lastUpdated || (walletData.isConnected ? "Connect wallet for live data" : "Not connected"));
+
+  const stakes = stakingData?.stakingPositions || [];
+  const transactions: TransactionData[] = []; // Will be populated when transaction API is implemented
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-gray-950 to-gray-900 text-foreground">
@@ -304,27 +282,27 @@ export default function OeconomiaDashboard() {
             <StatTile 
               icon={<BarChart3 className="h-4 w-4" />} 
               title="Net Worth" 
-              value={portfolioData.netWorth}
+              value={netWorth}
               sub="Total portfolio value"
             />
             <StatTile 
               icon={<TrendingUp className="h-4 w-4" />} 
               title="P&L" 
-              value={portfolioData.pnl}
-              sub={portfolioData.pnlPercentage}
+              value={walletData.isConnected ? "—" : "Connect wallet"}
+              sub="Since first transaction"
               color="green"
             />
             <StatTile 
               icon={<Sigma className="h-4 w-4" />} 
               title="Total Trades" 
-              value={portfolioData.totalTrades.toString()}
+              value={walletData.isConnected ? "—" : "Connect wallet"}
               sub="Lifetime transactions"
               color="blue"
             />
             <StatTile 
               icon={<CheckCircle2 className="h-4 w-4" />} 
               title="Health Score" 
-              value={portfolioData.healthScore}
+              value={healthScore}
               sub="Portfolio diversification"
               color="secondary"
             />
@@ -338,7 +316,7 @@ export default function OeconomiaDashboard() {
             title="OEC Token"
             chip={
               <span className="text-xs rounded-full border border-border px-3 py-1.5 bg-card/50">
-                Price: <span data-testid="text-oec-price">{oecData.price}</span>
+                Price: <span data-testid="text-oec-price">{pricesLoading ? "Loading..." : formatCurrency(oecPrice.price)}</span>
               </span>
             }
           />
@@ -350,9 +328,9 @@ export default function OeconomiaDashboard() {
                 <h3 className="font-semibold">Governance</h3>
               </div>
               <div className="space-y-3">
-                <InfoRow label="Voting Power" value={oecData.governance.level} />
-                <InfoRow label="Total Worth" value={oecData.governance.worth} />
-                <InfoRow label="Active Proposals" value={oecData.governance.proposals.toString()} />
+                <InfoRow label="Voting Power" value={walletData.isConnected ? "—" : "Connect wallet"} />
+                <InfoRow label="Total Worth" value={walletData.isConnected ? "—" : "Connect wallet"} />
+                <InfoRow label="Active Proposals" value={walletData.isConnected ? "—" : "Connect wallet"} />
               </div>
             </div>
 
@@ -362,9 +340,9 @@ export default function OeconomiaDashboard() {
                 <h3 className="font-semibold">Wallet Balance</h3>
               </div>
               <div className="space-y-3">
-                <InfoRow label="Amount" value={oecData.wallet.amount} />
-                <InfoRow label="USD Value" value={oecData.wallet.worth} />
-                <InfoRow label="24h Change" value={oecData.wallet.change} />
+                <InfoRow label="Amount" value={walletData.isConnected ? "—" : "Connect wallet"} />
+                <InfoRow label="USD Value" value={walletData.isConnected ? "—" : "Connect wallet"} />
+                <InfoRow label="24h Change" value={pricesLoading ? "Loading..." : formatPercentageChange(oecPrice.change24h).text} />
               </div>
             </div>
 
@@ -374,9 +352,9 @@ export default function OeconomiaDashboard() {
                 <h3 className="font-semibold">Staking</h3>
               </div>
               <div className="space-y-3">
-                <InfoRow label="Active Stakes" value={oecData.staking.active.toString()} />
-                <InfoRow label="Total Yield" value={oecData.staking.yield} />
-                <InfoRow label="Unclaimed" value={oecData.staking.unclaimed} />
+                <InfoRow label="Active Stakes" value={stakingLoading ? "Loading..." : stakes.filter((s: any) => s.stakingType === 'staking').length.toString()} />
+                <InfoRow label="Total Yield" value={stakingLoading ? "Loading..." : "—"} />
+                <InfoRow label="Unclaimed" value={stakingLoading ? "Loading..." : "—"} />
               </div>
             </div>
           </div>
@@ -389,7 +367,7 @@ export default function OeconomiaDashboard() {
             title="ELOQ Token"
             chip={
               <span className="text-xs rounded-full border border-border px-3 py-1.5 bg-card/50">
-                Price: <span data-testid="text-eloq-price">{eloqData.price}</span>
+                Price: <span data-testid="text-eloq-price">{pricesLoading ? "Loading..." : formatCurrency(eloqPrice.price)}</span>
               </span>
             }
           />
@@ -401,9 +379,9 @@ export default function OeconomiaDashboard() {
                 <h3 className="font-semibold">Wallet Balance</h3>
               </div>
               <div className="space-y-3">
-                <InfoRow label="Amount" value={eloqData.wallet.amount} />
-                <InfoRow label="USD Value" value={eloqData.wallet.worth} />
-                <InfoRow label="24h Change" value={eloqData.wallet.change} />
+                <InfoRow label="Amount" value={walletData.isConnected ? "—" : "Connect wallet"} />
+                <InfoRow label="USD Value" value={walletData.isConnected ? "—" : "Connect wallet"} />
+                <InfoRow label="24h Change" value={pricesLoading ? "Loading..." : formatPercentageChange(eloqPrice.change24h).text} />
               </div>
             </div>
 
@@ -413,9 +391,9 @@ export default function OeconomiaDashboard() {
                 <h3 className="font-semibold">Solo Staking</h3>
               </div>
               <div className="space-y-3">
-                <InfoRow label="Staked Amount" value={eloqData.solo.amount} />
-                <InfoRow label="Total Yield" value={eloqData.solo.yield} />
-                <InfoRow label="Unclaimed" value={eloqData.solo.unclaimed} />
+                <InfoRow label="Staked Amount" value={stakingLoading ? "Loading..." : "—"} />
+                <InfoRow label="Total Yield" value={stakingLoading ? "Loading..." : "—"} />
+                <InfoRow label="Unclaimed" value={stakingLoading ? "Loading..." : "—"} />
               </div>
             </div>
 
@@ -425,9 +403,9 @@ export default function OeconomiaDashboard() {
                 <h3 className="font-semibold">Liquidity Farming</h3>
               </div>
               <div className="space-y-3">
-                <InfoRow label="Active Pools" value={eloqData.farming.pools.toString()} />
-                <InfoRow label="Avg APY" value={eloqData.farming.apy} />
-                <InfoRow label="Unclaimed" value={eloqData.farming.unclaimed} />
+                <InfoRow label="Active Pools" value={stakingLoading ? "Loading..." : stakes.filter((s: any) => s.stakingType === 'farming').length.toString()} />
+                <InfoRow label="Avg APY" value={stakingLoading ? "Loading..." : "—"} />
+                <InfoRow label="Unclaimed" value={stakingLoading ? "Loading..." : "—"} />
               </div>
             </div>
           </div>
