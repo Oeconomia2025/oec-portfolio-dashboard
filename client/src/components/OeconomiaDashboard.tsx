@@ -1,0 +1,532 @@
+import { useState, useEffect } from "react";
+import { 
+  Wallet, 
+  UserCircle2, 
+  Coins, 
+  Sigma, 
+  BarChart3, 
+  TrendingUp, 
+  Gauge, 
+  CheckCircle2, 
+  Layers, 
+  Percent, 
+  PiggyBank,
+  ArrowDownRight,
+  ArrowUpRight,
+  Vote
+} from "lucide-react";
+
+interface PortfolioData {
+  netWorth: string;
+  pnl: string;
+  pnlPercentage: string;
+  totalTrades: number;
+  healthScore: string;
+}
+
+interface TokenData {
+  price: string;
+  wallet: {
+    amount: string;
+    worth: string;
+    change: string;
+  };
+}
+
+interface OECData extends TokenData {
+  governance: {
+    level: string;
+    worth: string;
+    proposals: number;
+  };
+  staking: {
+    active: number;
+    yield: string;
+    unclaimed: string;
+  };
+}
+
+interface ELOQData extends TokenData {
+  solo: {
+    amount: string;
+    yield: string;
+    unclaimed: string;
+  };
+  farming: {
+    pools: number;
+    apy: string;
+    unclaimed: string;
+  };
+}
+
+interface StakeData {
+  pool: string;
+  token: string;
+  amount: string;
+  apy: string;
+  rewards: string;
+}
+
+interface TransactionData {
+  type: string;
+  time: string;
+  amount: string;
+  usd: string;
+  icon: string;
+  status?: string;
+}
+
+interface WalletData {
+  isConnected: boolean;
+  address: string;
+  network: string;
+}
+
+// Small helper for a tidy label/value row
+function InfoRow({ label, value, hint }: { label: string; value?: React.ReactNode; hint?: string }) {
+  return (
+    <div className="flex items-start justify-between gap-4 py-1">
+      <span className="text-sm text-muted-foreground">{label}</span>
+      <div className="text-right">
+        <div className="text-sm font-medium text-foreground">{value ?? "—"}</div>
+        {hint ? <div className="text-[11px] text-muted-foreground mt-0.5">{hint}</div> : null}
+      </div>
+    </div>
+  );
+}
+
+function StatTile({ icon, title, value, sub, color = "primary" }: { 
+  icon?: React.ReactNode; 
+  title: string; 
+  value?: string; 
+  sub?: string;
+  color?: string;
+}) {
+  const getColorClasses = (color: string) => {
+    switch (color) {
+      case "green":
+        return "bg-green-500/10 text-green-400";
+      case "blue":
+        return "bg-blue-500/10 text-blue-400";
+      case "secondary":
+        return "bg-secondary/10 text-secondary";
+      default:
+        return "bg-primary/10 text-primary";
+    }
+  };
+
+  return (
+    <div className="rounded-2xl border border-border bg-card backdrop-blur p-5 shadow-lg hover:shadow-xl transition-shadow" data-testid={`stat-${title.toLowerCase().replace(/\s+/g, '-')}`}>
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <div className={`h-8 w-8 rounded-xl border border-border grid place-items-center ${getColorClasses(color)}`}>
+            {icon}
+          </div>
+          <span className="text-xs uppercase tracking-wide text-muted-foreground">{title}</span>
+        </div>
+      </div>
+      <div className="text-2xl font-semibold text-foreground" data-testid={`value-${title.toLowerCase().replace(/\s+/g, '-')}`}>{value ?? "—"}</div>
+      {sub ? <div className="text-xs text-muted-foreground mt-1">{sub}</div> : null}
+    </div>
+  );
+}
+
+function SectionHeader({ icon, title, chip }: { icon?: React.ReactNode; title: string; chip?: React.ReactNode }) {
+  return (
+    <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center gap-2">
+        {icon}
+        <h2 className="text-lg font-semibold tracking-tight text-foreground">{title}</h2>
+      </div>
+      {chip}
+    </div>
+  );
+}
+
+export default function OeconomiaDashboard() {
+  const [walletData, setWalletData] = useState<WalletData>({
+    isConnected: false,
+    address: "",
+    network: "Ethereum"
+  });
+
+  const [portfolioData, setPortfolioData] = useState<PortfolioData>({
+    netWorth: "Loading...",
+    pnl: "Loading...",
+    pnlPercentage: "Loading...",
+    totalTrades: 0,
+    healthScore: "Loading..."
+  });
+
+  const [oecData, setOecData] = useState<OECData>({
+    price: "Loading...",
+    wallet: {
+      amount: "Loading...",
+      worth: "Loading...",
+      change: "Loading..."
+    },
+    governance: {
+      level: "Loading...",
+      worth: "Loading...",
+      proposals: 0
+    },
+    staking: {
+      active: 0,
+      yield: "Loading...",
+      unclaimed: "Loading..."
+    }
+  });
+
+  const [eloqData, setEloqData] = useState<ELOQData>({
+    price: "Loading...",
+    wallet: {
+      amount: "Loading...",
+      worth: "Loading...",
+      change: "Loading..."
+    },
+    solo: {
+      amount: "Loading...",
+      yield: "Loading...",
+      unclaimed: "Loading..."
+    },
+    farming: {
+      pools: 0,
+      apy: "Loading...",
+      unclaimed: "Loading..."
+    }
+  });
+
+  const [stakes, setStakes] = useState<StakeData[]>([]);
+  const [transactions, setTransactions] = useState<TransactionData[]>([]);
+
+  const handleWalletConnect = async () => {
+    try {
+      // Wallet connection logic would go here
+      // For now, we'll show the connection state without mock data
+      setWalletData(prev => ({
+        ...prev,
+        isConnected: !prev.isConnected,
+        address: !prev.isConnected ? "0x1234...abcd" : ""
+      }));
+    } catch (error) {
+      console.error("Failed to connect wallet:", error);
+    }
+  };
+
+  useEffect(() => {
+    // Real data fetching would happen here
+    // Leaving empty states for production readiness
+  }, []);
+
+  return (
+    <div className="min-h-screen w-full bg-gradient-to-b from-gray-950 to-gray-900 text-foreground">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+        {/* Dashboard Header */}
+        <header className="flex items-center justify-between mb-8" data-testid="dashboard-header">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-purple-400">
+                Oeconomia Dashboard
+              </span>
+            </h1>
+            <p className="text-sm text-muted-foreground mt-1">Portfolio Management • Real-time DeFi Analytics</p>
+          </div>
+          <button 
+            onClick={handleWalletConnect}
+            className="inline-flex items-center gap-2 rounded-xl border border-border bg-card/50 backdrop-blur px-4 py-2 text-sm hover:bg-card/70 transition-colors"
+            data-testid="button-connect-wallet"
+          >
+            <Wallet className="h-4 w-4" />
+            <span>{walletData.isConnected ? "Disconnect" : "Connect Wallet"}</span>
+          </button>
+        </header>
+
+        {/* Profile and Wallet Status */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8">
+          <div className="lg:col-span-2 rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-profile">
+            <div className="flex items-center gap-4">
+              <div className="h-16 w-16 rounded-2xl bg-muted border border-border grid place-items-center">
+                <UserCircle2 className="h-9 w-9 text-muted-foreground" />
+              </div>
+              <div className="flex-1">
+                <div className="text-sm text-muted-foreground">Profile Name</div>
+                <div className="text-lg font-semibold" data-testid="text-profile-name">Connect wallet to view profile</div>
+              </div>
+              <div className="hidden sm:block w-px h-10 bg-border" />
+              <div className="flex-1">
+                <div className="text-sm text-muted-foreground">Profile Image</div>
+                <div className="text-sm text-accent-foreground">Upload Avatar</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-wallet-status">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <Wallet className="h-5 w-5 text-muted-foreground" />
+                <span className="text-sm font-medium">Wallet Status</span>
+              </div>
+              <div className="flex items-center gap-2 text-xs">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5">
+                  <span className={`h-2 w-2 rounded-full ${walletData.isConnected ? 'bg-green-400' : 'bg-yellow-500'}`} />
+                  <span data-testid="status-connection">{walletData.isConnected ? "Connected" : "Disconnected"}</span>
+                </span>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <span className="text-sm text-muted-foreground">Address</span>
+                <span className="text-sm font-mono" data-testid="text-wallet-address">
+                  {walletData.address || "Not connected"}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-sm text-muted-foreground">Network</span>
+                <span className="text-sm" data-testid="text-network">{walletData.network}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Portfolio Overview */}
+        <div className="mb-8">
+          <SectionHeader
+            icon={<Coins className="h-5 w-5 text-primary" />}
+            title="Portfolio Overview"
+            chip={
+              <span className="text-xs rounded-full border border-border px-3 py-1.5 bg-card/50">
+                Last updated: <span data-testid="text-last-update">Connect wallet for live data</span>
+              </span>
+            }
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+            <StatTile 
+              icon={<BarChart3 className="h-4 w-4" />} 
+              title="Net Worth" 
+              value={portfolioData.netWorth}
+              sub="Total portfolio value"
+            />
+            <StatTile 
+              icon={<TrendingUp className="h-4 w-4" />} 
+              title="P&L" 
+              value={portfolioData.pnl}
+              sub={portfolioData.pnlPercentage}
+              color="green"
+            />
+            <StatTile 
+              icon={<Sigma className="h-4 w-4" />} 
+              title="Total Trades" 
+              value={portfolioData.totalTrades.toString()}
+              sub="Lifetime transactions"
+              color="blue"
+            />
+            <StatTile 
+              icon={<CheckCircle2 className="h-4 w-4" />} 
+              title="Health Score" 
+              value={portfolioData.healthScore}
+              sub="Portfolio diversification"
+              color="secondary"
+            />
+          </div>
+        </div>
+
+        {/* OEC Token Section */}
+        <div className="mb-8">
+          <SectionHeader
+            icon={<Coins className="h-5 w-5 text-primary" />}
+            title="OEC Token"
+            chip={
+              <span className="text-xs rounded-full border border-border px-3 py-1.5 bg-card/50">
+                Price: <span data-testid="text-oec-price">{oecData.price}</span>
+              </span>
+            }
+          />
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-oec-governance">
+              <div className="flex items-center gap-2 mb-4">
+                <Gauge className="h-5 w-5 text-primary" />
+                <h3 className="font-semibold">Governance</h3>
+              </div>
+              <div className="space-y-3">
+                <InfoRow label="Voting Power" value={oecData.governance.level} />
+                <InfoRow label="Total Worth" value={oecData.governance.worth} />
+                <InfoRow label="Active Proposals" value={oecData.governance.proposals.toString()} />
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-oec-wallet">
+              <div className="flex items-center gap-2 mb-4">
+                <PiggyBank className="h-5 w-5 text-primary" />
+                <h3 className="font-semibold">Wallet Balance</h3>
+              </div>
+              <div className="space-y-3">
+                <InfoRow label="Amount" value={oecData.wallet.amount} />
+                <InfoRow label="USD Value" value={oecData.wallet.worth} />
+                <InfoRow label="24h Change" value={oecData.wallet.change} />
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-oec-staking">
+              <div className="flex items-center gap-2 mb-4">
+                <Layers className="h-5 w-5 text-primary" />
+                <h3 className="font-semibold">Staking</h3>
+              </div>
+              <div className="space-y-3">
+                <InfoRow label="Active Stakes" value={oecData.staking.active.toString()} />
+                <InfoRow label="Total Yield" value={oecData.staking.yield} />
+                <InfoRow label="Unclaimed" value={oecData.staking.unclaimed} />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ELOQ Token Section */}
+        <div className="mb-8">
+          <SectionHeader
+            icon={<Coins className="h-5 w-5 text-secondary" />}
+            title="ELOQ Token"
+            chip={
+              <span className="text-xs rounded-full border border-border px-3 py-1.5 bg-card/50">
+                Price: <span data-testid="text-eloq-price">{eloqData.price}</span>
+              </span>
+            }
+          />
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-eloq-wallet">
+              <div className="flex items-center gap-2 mb-4">
+                <PiggyBank className="h-5 w-5 text-secondary" />
+                <h3 className="font-semibold">Wallet Balance</h3>
+              </div>
+              <div className="space-y-3">
+                <InfoRow label="Amount" value={eloqData.wallet.amount} />
+                <InfoRow label="USD Value" value={eloqData.wallet.worth} />
+                <InfoRow label="24h Change" value={eloqData.wallet.change} />
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-eloq-solo">
+              <div className="flex items-center gap-2 mb-4">
+                <CheckCircle2 className="h-5 w-5 text-secondary" />
+                <h3 className="font-semibold">Solo Staking</h3>
+              </div>
+              <div className="space-y-3">
+                <InfoRow label="Staked Amount" value={eloqData.solo.amount} />
+                <InfoRow label="Total Yield" value={eloqData.solo.yield} />
+                <InfoRow label="Unclaimed" value={eloqData.solo.unclaimed} />
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-eloq-farming">
+              <div className="flex items-center gap-2 mb-4">
+                <Percent className="h-5 w-5 text-secondary" />
+                <h3 className="font-semibold">Liquidity Farming</h3>
+              </div>
+              <div className="space-y-3">
+                <InfoRow label="Active Pools" value={eloqData.farming.pools.toString()} />
+                <InfoRow label="Avg APY" value={eloqData.farming.apy} />
+                <InfoRow label="Unclaimed" value={eloqData.farming.unclaimed} />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Stakes Detail and Recent Transactions */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+          <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-stakes-detail">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-semibold">Active Stakes</h3>
+              <span className="text-xs text-muted-foreground">Live Data</span>
+            </div>
+            <div className="overflow-hidden rounded-xl border border-border">
+              <table className="w-full text-sm">
+                <thead className="bg-muted/50 text-muted-foreground">
+                  <tr>
+                    <th className="text-left p-3 font-medium">Pool</th>
+                    <th className="text-left p-3 font-medium">Token</th>
+                    <th className="text-right p-3 font-medium">Amount</th>
+                    <th className="text-right p-3 font-medium">APY</th>
+                    <th className="text-right p-3 font-medium">Rewards</th>
+                  </tr>
+                </thead>
+                <tbody data-testid="table-stakes">
+                  {stakes.length === 0 ? (
+                    <tr>
+                      <td colSpan={5} className="p-6 text-center text-muted-foreground">
+                        Connect wallet to view staking positions
+                      </td>
+                    </tr>
+                  ) : (
+                    stakes.map((stake, index) => (
+                      <tr key={index} className="border-t border-border hover:bg-muted/30" data-testid={`row-stake-${index}`}>
+                        <td className="p-3">{stake.pool}</td>
+                        <td className="p-3">{stake.token}</td>
+                        <td className="p-3 text-right font-mono">{stake.amount}</td>
+                        <td className="p-3 text-right">{stake.apy}</td>
+                        <td className="p-3 text-right text-green-400">{stake.rewards}</td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-recent-transactions">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-semibold">Recent Transactions</h3>
+              <button className="text-xs text-primary hover:text-primary/80" data-testid="button-view-all">View All</button>
+            </div>
+            <div className="space-y-3" data-testid="list-transactions">
+              {transactions.length === 0 ? (
+                <div className="text-center text-muted-foreground py-8">
+                  Connect wallet to view transaction history
+                </div>
+              ) : (
+                transactions.map((tx, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-muted/20 border border-border/50" data-testid={`transaction-${index}`}>
+                    <div className="flex items-center gap-3">
+                      <div className={`h-8 w-8 rounded-lg grid place-items-center ${
+                        tx.icon === "reward" ? "bg-green-500/10" :
+                        tx.icon === "deposit" ? "bg-blue-500/10" :
+                        "bg-purple-500/10"
+                      }`}>
+                        {tx.icon === "reward" && <ArrowDownRight className="h-4 w-4 text-green-400" />}
+                        {tx.icon === "deposit" && <ArrowUpRight className="h-4 w-4 text-blue-400" />}
+                        {tx.icon === "vote" && <Vote className="h-4 w-4 text-purple-400" />}
+                      </div>
+                      <div>
+                        <div className="text-sm font-medium">{tx.type}</div>
+                        <div className="text-xs text-muted-foreground">{tx.time}</div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-sm font-medium">{tx.amount}</div>
+                      <div className="text-xs text-muted-foreground">{tx.usd}</div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <footer className="mt-12 pt-8 border-t border-border" data-testid="dashboard-footer">
+          <div className="flex items-center justify-between text-sm text-muted-foreground">
+            <div>© 2024 Oeconomia Dashboard. Portfolio management made simple.</div>
+            <div className="flex items-center gap-4">
+              <span>Last sync: <span data-testid="text-last-sync">Connect wallet for live sync</span></span>
+              <div className="flex items-center gap-1">
+                <span className={`h-2 w-2 rounded-full ${walletData.isConnected ? 'bg-green-400' : 'bg-yellow-500'}`}></span>
+                <span data-testid="status-live">{walletData.isConnected ? "Live" : "Offline"}</span>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+  );
+}
