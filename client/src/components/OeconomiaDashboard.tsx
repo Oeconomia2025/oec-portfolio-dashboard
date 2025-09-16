@@ -234,7 +234,7 @@ export default function OeconomiaDashboard() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
 
         {/* Profile */}
-        <div className="mb-8">
+        <div className="mb-2">
           <div className="rounded-2xl border border-border bg-card backdrop-blur shadow-lg overflow-hidden">
             <Collapsible open={isProfileOpen} onOpenChange={setIsProfileOpen}>
               <CollapsibleTrigger className="w-full">
@@ -264,7 +264,7 @@ export default function OeconomiaDashboard() {
         </div>
 
         {/* Portfolio Overview */}
-        <div className="mb-8">
+        <div className="mb-2">
           <div className="rounded-2xl border border-border bg-card backdrop-blur shadow-lg overflow-hidden">
             <Collapsible open={isPortfolioOpen} onOpenChange={setIsPortfolioOpen}>
               <CollapsibleTrigger className="w-full">
@@ -343,7 +343,7 @@ export default function OeconomiaDashboard() {
         </div>
 
         {/* OEC Token Section */}
-        <div className="mb-8">
+        <div className="mb-2">
           <div className="rounded-2xl border border-border bg-card backdrop-blur shadow-lg overflow-hidden">
             <Collapsible open={isOECOpen} onOpenChange={setIsOECOpen}>
               <CollapsibleTrigger className="w-full">
@@ -406,7 +406,7 @@ export default function OeconomiaDashboard() {
         </div>
 
         {/* ELOQ Token Section */}
-        <div className="mb-8">
+        <div className="mb-2">
           <div className="rounded-2xl border border-border bg-card backdrop-blur shadow-lg overflow-hidden">
             <Collapsible open={isELOQOpen} onOpenChange={setIsELOQOpen}>
               <CollapsibleTrigger className="w-full">
@@ -469,7 +469,7 @@ export default function OeconomiaDashboard() {
         </div>
 
         {/* Stakes Detail and Recent Transactions */}
-        <div className="mb-8">
+        <div className="mb-2">
           <div className="rounded-2xl border border-border bg-card backdrop-blur shadow-lg overflow-hidden">
             <Collapsible open={isStakesOpen} onOpenChange={setIsStakesOpen}>
               <CollapsibleTrigger className="w-full">
