@@ -198,26 +198,31 @@ export default function OeconomiaDashboard() {
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-gray-950 to-gray-900 text-foreground">
+      {/* Top Bar */}
+      <div className="border-b border-border bg-card/30 backdrop-blur">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <header className="flex items-center justify-between py-4" data-testid="dashboard-header">
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-purple-400">
+                  Oeconomia Dashboard
+                </span>
+              </h1>
+              <p className="text-sm text-muted-foreground mt-1">Portfolio Management • Real-time DeFi Analytics</p>
+            </div>
+            <button 
+              onClick={handleWalletConnect}
+              className="inline-flex items-center gap-2 rounded-xl border border-border bg-card/50 backdrop-blur px-4 py-2 text-sm hover:bg-card/70 transition-colors"
+              data-testid="button-connect-wallet"
+            >
+              <Wallet className="h-4 w-4" />
+              <span>{walletData.isConnected ? "Disconnect" : "Connect Wallet"}</span>
+            </button>
+          </header>
+        </div>
+      </div>
+
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-        {/* Dashboard Header */}
-        <header className="flex items-center justify-between mb-8" data-testid="dashboard-header">
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-purple-400">
-                Oeconomia Dashboard
-              </span>
-            </h1>
-            <p className="text-sm text-muted-foreground mt-1">Portfolio Management • Real-time DeFi Analytics</p>
-          </div>
-          <button 
-            onClick={handleWalletConnect}
-            className="inline-flex items-center gap-2 rounded-xl border border-border bg-card/50 backdrop-blur px-4 py-2 text-sm hover:bg-card/70 transition-colors"
-            data-testid="button-connect-wallet"
-          >
-            <Wallet className="h-4 w-4" />
-            <span>{walletData.isConnected ? "Disconnect" : "Connect Wallet"}</span>
-          </button>
-        </header>
 
         {/* Profile */}
         <div className="mb-8">
@@ -241,7 +246,7 @@ export default function OeconomiaDashboard() {
             title="Portfolio Overview"
             chip={
               <span className="text-xs rounded-full border border-border px-3 py-1.5 bg-card/50">
-                Last updated: <span data-testid="text-last-update">Connect wallet for live data</span>
+                Last updated: <span data-testid="text-last-update">{lastUpdated}</span>
               </span>
             }
           />
@@ -256,14 +261,14 @@ export default function OeconomiaDashboard() {
             <StatTile 
               icon={<TrendingUp className="h-4 w-4" />} 
               title="P&L" 
-              value={walletData.isConnected ? "—" : "Connect wallet"}
+              value={portfolioLoading ? "Loading..." : (portfolioData?.pnl ? formatCurrency(portfolioData.pnl) : (walletData.isConnected ? "—" : "Connect wallet"))}
               sub="Since first transaction"
               color="green"
             />
             <StatTile 
               icon={<Sigma className="h-4 w-4" />} 
               title="Total Trades" 
-              value={walletData.isConnected ? "—" : "Connect wallet"}
+              value={portfolioLoading ? "Loading..." : (portfolioData?.totalTrades?.toString() || (walletData.isConnected ? "—" : "Connect wallet"))}
               sub="Lifetime transactions"
               color="blue"
             />
