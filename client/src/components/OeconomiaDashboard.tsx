@@ -295,18 +295,6 @@ export default function OeconomiaDashboard() {
           />
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-oec-governance">
-              <div className="flex items-center gap-2 mb-4">
-                <Gauge className="h-5 w-5 text-primary" />
-                <h3 className="font-semibold">Governance</h3>
-              </div>
-              <div className="space-y-3">
-                <InfoRow label="Voting Power" value={walletData.isConnected ? "—" : "Connect wallet"} />
-                <InfoRow label="Total Worth" value={walletData.isConnected ? "—" : "Connect wallet"} />
-                <InfoRow label="Active Proposals" value={walletData.isConnected ? "—" : "Connect wallet"} />
-              </div>
-            </div>
-
             <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-oec-wallet">
               <div className="flex items-center gap-2 mb-4">
                 <PiggyBank className="h-5 w-5 text-primary" />
@@ -328,6 +316,18 @@ export default function OeconomiaDashboard() {
                 <InfoRow label="Active Stakes" value={stakingLoading ? "Loading..." : stakes.filter((s: any) => s.stakingType === 'staking').length.toString()} />
                 <InfoRow label="Total Yield" value={stakingLoading ? "Loading..." : "—"} />
                 <InfoRow label="Unclaimed" value={stakingLoading ? "Loading..." : "—"} />
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-oec-governance">
+              <div className="flex items-center gap-2 mb-4">
+                <Gauge className="h-5 w-5 text-primary" />
+                <h3 className="font-semibold">Governance</h3>
+              </div>
+              <div className="space-y-3">
+                <InfoRow label="Voting Power" value={walletData.isConnected ? "—" : "Connect wallet"} />
+                <InfoRow label="Total Worth" value={walletData.isConnected ? "—" : "Connect wallet"} />
+                <InfoRow label="Active Proposals" value={walletData.isConnected ? "—" : "Connect wallet"} />
               </div>
             </div>
           </div>
