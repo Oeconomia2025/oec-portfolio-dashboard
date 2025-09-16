@@ -13,8 +13,10 @@ import {
   PiggyBank,
   ArrowDownRight,
   ArrowUpRight,
-  Vote
+  Vote,
+  ChevronDown
 } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 import { useTokenPrices, usePortfolio, useStakingPositions, useWalletConnection, formatCurrency, formatPercentageChange } from "../hooks/useBlockchainData";
 
 interface PortfolioData {
@@ -151,6 +153,13 @@ export default function OeconomiaDashboard() {
     network: "Ethereum"
   });
 
+  // Collapsible section states
+  const [isProfileOpen, setIsProfileOpen] = useState(true);
+  const [isPortfolioOpen, setIsPortfolioOpen] = useState(true);
+  const [isOECOpen, setIsOECOpen] = useState(true);
+  const [isELOQOpen, setIsELOQOpen] = useState(true);
+  const [isStakesOpen, setIsStakesOpen] = useState(true);
+
   // Fetch real blockchain data
   const { data: tokenPrices = {}, isLoading: pricesLoading } = useTokenPrices();
   const { data: portfolioData, isLoading: portfolioLoading } = usePortfolio(walletData.address);
@@ -226,242 +235,294 @@ export default function OeconomiaDashboard() {
 
         {/* Profile */}
         <div className="mb-8">
-          <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-profile">
-            <div className="flex items-center gap-4">
-              <div className="h-16 w-16 rounded-2xl bg-muted border border-border grid place-items-center">
-                <UserCircle2 className="h-9 w-9 text-muted-foreground" />
+          <Collapsible open={isProfileOpen} onOpenChange={setIsProfileOpen}>
+            <CollapsibleTrigger className="w-full">
+              <div className="flex items-center justify-between mb-4 hover:bg-muted/20 rounded-lg p-2 -m-2 transition-colors">
+                <div className="flex items-center gap-2">
+                  <UserCircle2 className="h-5 w-5 text-primary" />
+                  <h2 className="text-lg font-semibold tracking-tight text-foreground">Profile</h2>
+                </div>
+                <ChevronDown className={`h-4 w-4 transition-transform ${isProfileOpen ? 'rotate-180' : ''}`} />
               </div>
-              <div className="flex-1">
-                <div className="text-sm text-muted-foreground">Profile Name</div>
-                <div className="text-lg font-semibold" data-testid="text-profile-name">Connect wallet to view profile</div>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-profile">
+                <div className="flex items-center gap-4">
+                  <div className="h-16 w-16 rounded-2xl bg-muted border border-border grid place-items-center">
+                    <UserCircle2 className="h-9 w-9 text-muted-foreground" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-sm text-muted-foreground">Profile Name</div>
+                    <div className="text-lg font-semibold" data-testid="text-profile-name">Connect wallet to view profile</div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            </CollapsibleContent>
+          </Collapsible>
         </div>
 
         {/* Portfolio Overview */}
         <div className="mb-8">
-          <SectionHeader
-            icon={<Coins className="h-5 w-5 text-primary" />}
-            title="Portfolio Overview"
-            chip={
-              <span className="text-xs rounded-full border border-border px-3 py-1.5 bg-card/50">
-                Last updated: <span data-testid="text-last-update">{lastUpdated}</span>
-              </span>
-            }
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-            <StatTile 
-              icon={<BarChart3 className="h-4 w-4" />} 
-              title="Net Worth" 
-              value={netWorth}
-              sub="Total portfolio value"
-            />
-            <StatTile 
-              icon={<TrendingUp className="h-4 w-4" />} 
-              title="P&L" 
-              value={portfolioLoading ? "Loading..." : (portfolioData?.pnl ? formatCurrency(portfolioData.pnl) : (walletData.isConnected ? "—" : "Connect wallet"))}
-              sub="Since first transaction"
-              color="green"
-            />
-            <StatTile 
-              icon={<Sigma className="h-4 w-4" />} 
-              title="Total Trades" 
-              value={portfolioLoading ? "Loading..." : (portfolioData?.totalTrades?.toString() || (walletData.isConnected ? "—" : "Connect wallet"))}
-              sub="Lifetime transactions"
-              color="blue"
-            />
-            <StatTile 
-              icon={<CheckCircle2 className="h-4 w-4" />} 
-              title="Health Score" 
-              value={healthScore}
-              sub="Portfolio diversification"
-              color="secondary"
-            />
-          </div>
+          <Collapsible open={isPortfolioOpen} onOpenChange={setIsPortfolioOpen}>
+            <CollapsibleTrigger className="w-full">
+              <div className="flex items-center justify-between mb-4 hover:bg-muted/20 rounded-lg p-2 -m-2 transition-colors">
+                <div className="flex items-center gap-2">
+                  <Coins className="h-5 w-5 text-primary" />
+                  <h2 className="text-lg font-semibold tracking-tight text-foreground">Portfolio Overview</h2>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs rounded-full border border-border px-3 py-1.5 bg-card/50">
+                    Last updated: <span data-testid="text-last-update">{lastUpdated}</span>
+                  </span>
+                  <ChevronDown className={`h-4 w-4 transition-transform ${isPortfolioOpen ? 'rotate-180' : ''}`} />
+                </div>
+              </div>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+                <StatTile 
+                  icon={<BarChart3 className="h-4 w-4" />} 
+                  title="Net Worth" 
+                  value={netWorth}
+                  sub="Total portfolio value"
+                />
+                <StatTile 
+                  icon={<TrendingUp className="h-4 w-4" />} 
+                  title="P&L" 
+                  value={portfolioLoading ? "Loading..." : (portfolioData?.pnl ? formatCurrency(portfolioData.pnl) : (walletData.isConnected ? "—" : "Connect wallet"))}
+                  sub="Since first transaction"
+                  color="green"
+                />
+                <StatTile 
+                  icon={<Sigma className="h-4 w-4" />} 
+                  title="Total Trades" 
+                  value={portfolioLoading ? "Loading..." : (portfolioData?.totalTrades?.toString() || (walletData.isConnected ? "—" : "Connect wallet"))}
+                  sub="Lifetime transactions"
+                  color="blue"
+                />
+                <StatTile 
+                  icon={<CheckCircle2 className="h-4 w-4" />} 
+                  title="Health Score" 
+                  value={healthScore}
+                  sub="Portfolio diversification"
+                  color="secondary"
+                />
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
         </div>
 
         {/* OEC Token Section */}
         <div className="mb-8">
-          <SectionHeader
-            icon={<Coins className="h-5 w-5 text-primary" />}
-            title="OEC Token"
-            chip={
-              <span className="text-xs rounded-full border border-border px-3 py-1.5 bg-card/50">
-                Price: <span data-testid="text-oec-price">{pricesLoading ? "Loading..." : formatCurrency(oecPrice.price)}</span>
-              </span>
-            }
-          />
+          <Collapsible open={isOECOpen} onOpenChange={setIsOECOpen}>
+            <CollapsibleTrigger className="w-full">
+              <div className="flex items-center justify-between mb-4 hover:bg-muted/20 rounded-lg p-2 -m-2 transition-colors">
+                <div className="flex items-center gap-2">
+                  <Coins className="h-5 w-5 text-primary" />
+                  <h2 className="text-lg font-semibold tracking-tight text-foreground">OEC Token</h2>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs rounded-full border border-border px-3 py-1.5 bg-card/50">
+                    Price: <span data-testid="text-oec-price">{pricesLoading ? "Loading..." : formatCurrency(oecPrice.price)}</span>
+                  </span>
+                  <ChevronDown className={`h-4 w-4 transition-transform ${isOECOpen ? 'rotate-180' : ''}`} />
+                </div>
+              </div>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-oec-wallet">
+                  <div className="flex items-center gap-2 mb-4">
+                    <PiggyBank className="h-5 w-5 text-primary" />
+                    <h3 className="font-semibold">Wallet Balance</h3>
+                  </div>
+                  <div className="space-y-3">
+                    <InfoRow label="Amount" value={walletData.isConnected ? "—" : "Connect wallet"} />
+                    <InfoRow label="USD Value" value={walletData.isConnected ? "—" : "Connect wallet"} />
+                    <InfoRow label="24h Change" value={pricesLoading ? "Loading..." : formatPercentageChange(oecPrice.change24h).text} />
+                  </div>
+                </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-oec-wallet">
-              <div className="flex items-center gap-2 mb-4">
-                <PiggyBank className="h-5 w-5 text-primary" />
-                <h3 className="font-semibold">Wallet Balance</h3>
-              </div>
-              <div className="space-y-3">
-                <InfoRow label="Amount" value={walletData.isConnected ? "—" : "Connect wallet"} />
-                <InfoRow label="USD Value" value={walletData.isConnected ? "—" : "Connect wallet"} />
-                <InfoRow label="24h Change" value={pricesLoading ? "Loading..." : formatPercentageChange(oecPrice.change24h).text} />
-              </div>
-            </div>
+                <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-oec-staking">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Layers className="h-5 w-5 text-primary" />
+                    <h3 className="font-semibold">Staking</h3>
+                  </div>
+                  <div className="space-y-3">
+                    <InfoRow label="Active Stakes" value={stakingLoading ? "Loading..." : stakes.filter((s: any) => s.stakingType === 'staking').length.toString()} />
+                    <InfoRow label="Total Yield" value={stakingLoading ? "Loading..." : "—"} />
+                    <InfoRow label="Unclaimed" value={stakingLoading ? "Loading..." : "—"} />
+                  </div>
+                </div>
 
-            <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-oec-staking">
-              <div className="flex items-center gap-2 mb-4">
-                <Layers className="h-5 w-5 text-primary" />
-                <h3 className="font-semibold">Staking</h3>
+                <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-oec-governance">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Gauge className="h-5 w-5 text-primary" />
+                    <h3 className="font-semibold">Governance</h3>
+                  </div>
+                  <div className="space-y-3">
+                    <InfoRow label="Voting Power" value={walletData.isConnected ? "—" : "Connect wallet"} />
+                    <InfoRow label="Total Worth" value={walletData.isConnected ? "—" : "Connect wallet"} />
+                    <InfoRow label="Active Proposals" value={walletData.isConnected ? "—" : "Connect wallet"} />
+                  </div>
+                </div>
               </div>
-              <div className="space-y-3">
-                <InfoRow label="Active Stakes" value={stakingLoading ? "Loading..." : stakes.filter((s: any) => s.stakingType === 'staking').length.toString()} />
-                <InfoRow label="Total Yield" value={stakingLoading ? "Loading..." : "—"} />
-                <InfoRow label="Unclaimed" value={stakingLoading ? "Loading..." : "—"} />
-              </div>
-            </div>
-
-            <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-oec-governance">
-              <div className="flex items-center gap-2 mb-4">
-                <Gauge className="h-5 w-5 text-primary" />
-                <h3 className="font-semibold">Governance</h3>
-              </div>
-              <div className="space-y-3">
-                <InfoRow label="Voting Power" value={walletData.isConnected ? "—" : "Connect wallet"} />
-                <InfoRow label="Total Worth" value={walletData.isConnected ? "—" : "Connect wallet"} />
-                <InfoRow label="Active Proposals" value={walletData.isConnected ? "—" : "Connect wallet"} />
-              </div>
-            </div>
-          </div>
+            </CollapsibleContent>
+          </Collapsible>
         </div>
 
         {/* ELOQ Token Section */}
         <div className="mb-8">
-          <SectionHeader
-            icon={<Coins className="h-5 w-5 text-secondary" />}
-            title="ELOQ Token"
-            chip={
-              <span className="text-xs rounded-full border border-border px-3 py-1.5 bg-card/50">
-                Price: <span data-testid="text-eloq-price">{pricesLoading ? "Loading..." : formatCurrency(eloqPrice.price)}</span>
-              </span>
-            }
-          />
+          <Collapsible open={isELOQOpen} onOpenChange={setIsELOQOpen}>
+            <CollapsibleTrigger className="w-full">
+              <div className="flex items-center justify-between mb-4 hover:bg-muted/20 rounded-lg p-2 -m-2 transition-colors">
+                <div className="flex items-center gap-2">
+                  <Coins className="h-5 w-5 text-secondary" />
+                  <h2 className="text-lg font-semibold tracking-tight text-foreground">ELOQ Token</h2>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs rounded-full border border-border px-3 py-1.5 bg-card/50">
+                    Price: <span data-testid="text-eloq-price">{pricesLoading ? "Loading..." : formatCurrency(eloqPrice.price)}</span>
+                  </span>
+                  <ChevronDown className={`h-4 w-4 transition-transform ${isELOQOpen ? 'rotate-180' : ''}`} />
+                </div>
+              </div>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-eloq-wallet">
+                  <div className="flex items-center gap-2 mb-4">
+                    <PiggyBank className="h-5 w-5 text-secondary" />
+                    <h3 className="font-semibold">Wallet Balance</h3>
+                  </div>
+                  <div className="space-y-3">
+                    <InfoRow label="Amount" value={walletData.isConnected ? "—" : "Connect wallet"} />
+                    <InfoRow label="USD Value" value={walletData.isConnected ? "—" : "Connect wallet"} />
+                    <InfoRow label="24h Change" value={pricesLoading ? "Loading..." : formatPercentageChange(eloqPrice.change24h).text} />
+                  </div>
+                </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-eloq-wallet">
-              <div className="flex items-center gap-2 mb-4">
-                <PiggyBank className="h-5 w-5 text-secondary" />
-                <h3 className="font-semibold">Wallet Balance</h3>
-              </div>
-              <div className="space-y-3">
-                <InfoRow label="Amount" value={walletData.isConnected ? "—" : "Connect wallet"} />
-                <InfoRow label="USD Value" value={walletData.isConnected ? "—" : "Connect wallet"} />
-                <InfoRow label="24h Change" value={pricesLoading ? "Loading..." : formatPercentageChange(eloqPrice.change24h).text} />
-              </div>
-            </div>
+                <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-eloq-solo">
+                  <div className="flex items-center gap-2 mb-4">
+                    <CheckCircle2 className="h-5 w-5 text-secondary" />
+                    <h3 className="font-semibold">Solo Staking</h3>
+                  </div>
+                  <div className="space-y-3">
+                    <InfoRow label="Staked Amount" value={stakingLoading ? "Loading..." : "—"} />
+                    <InfoRow label="Total Yield" value={stakingLoading ? "Loading..." : "—"} />
+                    <InfoRow label="Unclaimed" value={stakingLoading ? "Loading..." : "—"} />
+                  </div>
+                </div>
 
-            <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-eloq-solo">
-              <div className="flex items-center gap-2 mb-4">
-                <CheckCircle2 className="h-5 w-5 text-secondary" />
-                <h3 className="font-semibold">Solo Staking</h3>
+                <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-eloq-farming">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Percent className="h-5 w-5 text-secondary" />
+                    <h3 className="font-semibold">Liquidity Farming</h3>
+                  </div>
+                  <div className="space-y-3">
+                    <InfoRow label="Active Pools" value={stakingLoading ? "Loading..." : stakes.filter((s: any) => s.stakingType === 'farming').length.toString()} />
+                    <InfoRow label="Avg APY" value={stakingLoading ? "Loading..." : "—"} />
+                    <InfoRow label="Unclaimed" value={stakingLoading ? "Loading..." : "—"} />
+                  </div>
+                </div>
               </div>
-              <div className="space-y-3">
-                <InfoRow label="Staked Amount" value={stakingLoading ? "Loading..." : "—"} />
-                <InfoRow label="Total Yield" value={stakingLoading ? "Loading..." : "—"} />
-                <InfoRow label="Unclaimed" value={stakingLoading ? "Loading..." : "—"} />
-              </div>
-            </div>
-
-            <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-eloq-farming">
-              <div className="flex items-center gap-2 mb-4">
-                <Percent className="h-5 w-5 text-secondary" />
-                <h3 className="font-semibold">Liquidity Farming</h3>
-              </div>
-              <div className="space-y-3">
-                <InfoRow label="Active Pools" value={stakingLoading ? "Loading..." : stakes.filter((s: any) => s.stakingType === 'farming').length.toString()} />
-                <InfoRow label="Avg APY" value={stakingLoading ? "Loading..." : "—"} />
-                <InfoRow label="Unclaimed" value={stakingLoading ? "Loading..." : "—"} />
-              </div>
-            </div>
-          </div>
+            </CollapsibleContent>
+          </Collapsible>
         </div>
 
         {/* Stakes Detail and Recent Transactions */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-          <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-stakes-detail">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold">Active Stakes</h3>
-              <span className="text-xs text-muted-foreground">Live Data</span>
-            </div>
-            <div className="overflow-hidden rounded-xl border border-border">
-              <table className="w-full text-sm">
-                <thead className="bg-muted/50 text-muted-foreground">
-                  <tr>
-                    <th className="text-left p-3 font-medium">Pool</th>
-                    <th className="text-left p-3 font-medium">Token</th>
-                    <th className="text-right p-3 font-medium">Amount</th>
-                    <th className="text-right p-3 font-medium">APY</th>
-                    <th className="text-right p-3 font-medium">Rewards</th>
-                  </tr>
-                </thead>
-                <tbody data-testid="table-stakes">
-                  {stakes.length === 0 ? (
-                    <tr>
-                      <td colSpan={5} className="p-6 text-center text-muted-foreground">
-                        Connect wallet to view staking positions
-                      </td>
-                    </tr>
-                  ) : (
-                    stakes.map((stake, index) => (
-                      <tr key={index} className="border-t border-border hover:bg-muted/30" data-testid={`row-stake-${index}`}>
-                        <td className="p-3">{stake.pool}</td>
-                        <td className="p-3">{stake.token}</td>
-                        <td className="p-3 text-right font-mono">{stake.amount}</td>
-                        <td className="p-3 text-right">{stake.apy}</td>
-                        <td className="p-3 text-right text-green-400">{stake.rewards}</td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-recent-transactions">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold">Recent Transactions</h3>
-              <button className="text-xs text-primary hover:text-primary/80" data-testid="button-view-all">View All</button>
-            </div>
-            <div className="space-y-3" data-testid="list-transactions">
-              {transactions.length === 0 ? (
-                <div className="text-center text-muted-foreground py-8">
-                  Connect wallet to view transaction history
+        <div className="mb-8">
+          <Collapsible open={isStakesOpen} onOpenChange={setIsStakesOpen}>
+            <CollapsibleTrigger className="w-full">
+              <div className="flex items-center justify-between mb-4 hover:bg-muted/20 rounded-lg p-2 -m-2 transition-colors">
+                <div className="flex items-center gap-2">
+                  <Layers className="h-5 w-5 text-primary" />
+                  <h2 className="text-lg font-semibold tracking-tight text-foreground">Stakes & Transactions</h2>
                 </div>
-              ) : (
-                transactions.map((tx, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-muted/20 border border-border/50" data-testid={`transaction-${index}`}>
-                    <div className="flex items-center gap-3">
-                      <div className={`h-8 w-8 rounded-lg grid place-items-center ${
-                        tx.icon === "reward" ? "bg-green-500/10" :
-                        tx.icon === "deposit" ? "bg-blue-500/10" :
-                        "bg-purple-500/10"
-                      }`}>
-                        {tx.icon === "reward" && <ArrowDownRight className="h-4 w-4 text-green-400" />}
-                        {tx.icon === "deposit" && <ArrowUpRight className="h-4 w-4 text-blue-400" />}
-                        {tx.icon === "vote" && <Vote className="h-4 w-4 text-purple-400" />}
-                      </div>
-                      <div>
-                        <div className="text-sm font-medium">{tx.type}</div>
-                        <div className="text-xs text-muted-foreground">{tx.time}</div>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm font-medium">{tx.amount}</div>
-                      <div className="text-xs text-muted-foreground">{tx.usd}</div>
-                    </div>
+                <ChevronDown className={`h-4 w-4 transition-transform ${isStakesOpen ? 'rotate-180' : ''}`} />
+              </div>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-stakes-detail">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="font-semibold">Active Stakes</h3>
+                    <span className="text-xs text-muted-foreground">Live Data</span>
                   </div>
-                ))
-              )}
-            </div>
-          </div>
+                  <div className="overflow-hidden rounded-xl border border-border">
+                    <table className="w-full text-sm">
+                      <thead className="bg-muted/50 text-muted-foreground">
+                        <tr>
+                          <th className="text-left p-3 font-medium">Pool</th>
+                          <th className="text-left p-3 font-medium">Token</th>
+                          <th className="text-right p-3 font-medium">Amount</th>
+                          <th className="text-right p-3 font-medium">APY</th>
+                          <th className="text-right p-3 font-medium">Rewards</th>
+                        </tr>
+                      </thead>
+                      <tbody data-testid="table-stakes">
+                        {stakes.length === 0 ? (
+                          <tr>
+                            <td colSpan={5} className="p-6 text-center text-muted-foreground">
+                              Connect wallet to view staking positions
+                            </td>
+                          </tr>
+                        ) : (
+                          stakes.map((stake, index) => (
+                            <tr key={index} className="border-t border-border hover:bg-muted/30" data-testid={`row-stake-${index}`}>
+                              <td className="p-3">{stake.pool}</td>
+                              <td className="p-3">{stake.token}</td>
+                              <td className="p-3 text-right font-mono">{stake.amount}</td>
+                              <td className="p-3 text-right">{stake.apy}</td>
+                              <td className="p-3 text-right text-green-400">{stake.rewards}</td>
+                            </tr>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-recent-transactions">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="font-semibold">Recent Transactions</h3>
+                    <button className="text-xs text-primary hover:text-primary/80" data-testid="button-view-all">View All</button>
+                  </div>
+                  <div className="space-y-3" data-testid="list-transactions">
+                    {transactions.length === 0 ? (
+                      <div className="text-center text-muted-foreground py-8">
+                        Connect wallet to view transaction history
+                      </div>
+                    ) : (
+                      transactions.map((tx, index) => (
+                        <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-muted/20 border border-border/50" data-testid={`transaction-${index}`}>
+                          <div className="flex items-center gap-3">
+                            <div className={`h-8 w-8 rounded-lg grid place-items-center ${
+                              tx.icon === "reward" ? "bg-green-500/10" :
+                              tx.icon === "deposit" ? "bg-blue-500/10" :
+                              "bg-purple-500/10"
+                            }`}>
+                              {tx.icon === "reward" && <ArrowDownRight className="h-4 w-4 text-green-400" />}
+                              {tx.icon === "deposit" && <ArrowUpRight className="h-4 w-4 text-blue-400" />}
+                              {tx.icon === "vote" && <Vote className="h-4 w-4 text-purple-400" />}
+                            </div>
+                            <div>
+                              <div className="text-sm font-medium">{tx.type}</div>
+                              <div className="text-xs text-muted-foreground">{tx.time}</div>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-sm font-medium">{tx.amount}</div>
+                            <div className="text-xs text-muted-foreground">{tx.usd}</div>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
         </div>
 
         {/* Footer */}
