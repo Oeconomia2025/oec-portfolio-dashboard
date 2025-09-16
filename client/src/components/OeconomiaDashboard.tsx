@@ -208,7 +208,7 @@ export default function OeconomiaDashboard() {
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-gray-950 to-gray-900 text-foreground">
       {/* Top Bar */}
-      <div className="border-b border-border bg-card/30 backdrop-blur">
+      <div className="sticky top-0 z-50 border-b border-border bg-card/30 backdrop-blur">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <header className="flex items-center justify-between py-4" data-testid="dashboard-header">
             <div>
