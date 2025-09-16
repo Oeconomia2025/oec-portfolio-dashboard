@@ -296,7 +296,7 @@ export default function OeconomiaDashboard() {
                       <div className="text-2xl font-semibold text-foreground" data-testid="value-net-worth">{netWorth}</div>
                       <div className="text-xs text-muted-foreground mt-1">Total portfolio value</div>
                     </div>
-                    
+
                     <div className="rounded-2xl bg-card backdrop-blur p-5 shadow-lg hover:shadow-xl transition-shadow" data-testid="stat-p&l">
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-2">
@@ -309,7 +309,7 @@ export default function OeconomiaDashboard() {
                       <div className="text-2xl font-semibold text-foreground" data-testid="value-p&l">{portfolioLoading ? "Loading..." : (portfolioData?.pnl ? formatCurrency(portfolioData.pnl) : (walletData.isConnected ? "—" : "Connect wallet"))}</div>
                       <div className="text-xs text-muted-foreground mt-1">Since first transaction</div>
                     </div>
-                    
+
                     <div className="rounded-2xl bg-card backdrop-blur p-5 shadow-lg hover:shadow-xl transition-shadow" data-testid="stat-total-trades">
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-2">
@@ -322,7 +322,7 @@ export default function OeconomiaDashboard() {
                       <div className="text-2xl font-semibold text-foreground" data-testid="value-total-trades">{portfolioLoading ? "Loading..." : (portfolioData?.totalTrades?.toString() || (walletData.isConnected ? "—" : "Connect wallet"))}</div>
                       <div className="text-xs text-muted-foreground mt-1">Lifetime transactions</div>
                     </div>
-                    
+
                     <div className="rounded-2xl bg-card backdrop-blur p-5 shadow-lg hover:shadow-xl transition-shadow" data-testid="stat-health-score">
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-2">
@@ -361,8 +361,8 @@ export default function OeconomiaDashboard() {
                 </div>
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <div className="px-6 pb-6 border-t border-border/50">
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 pt-6">
+                <div className="px-6 border-t border-border/50">
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                     <div className="rounded-xl bg-muted/20 p-6" data-testid="card-oec-wallet">
                       <div className="flex items-center gap-2 mb-4">
                         <PiggyBank className="h-5 w-5 text-primary" />
@@ -424,8 +424,8 @@ export default function OeconomiaDashboard() {
                 </div>
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <div className="px-6 pb-6 border-t border-border/50">
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 pt-6">
+                <div className="px-6 border-t border-border/50">
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                     <div className="rounded-xl bg-muted/20 p-6" data-testid="card-eloq-wallet">
                       <div className="flex items-center gap-2 mb-4">
                         <PiggyBank className="h-5 w-5 text-secondary" />
