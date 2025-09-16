@@ -248,8 +248,7 @@ export default function OeconomiaDashboard() {
               </CollapsibleTrigger>
               <CollapsibleContent>
                 <div className="px-6 border-t border-border/50">
-                  <div className="flex items-center gap-4"></div>
-                </div>
+                  <div className="flex items-center gap-4">
                     <div className="h-16 w-16 rounded-2xl bg-muted border border-border grid place-items-center">
                       <UserCircle2 className="h-9 w-9 text-muted-foreground" />
                     </div>
@@ -284,9 +283,8 @@ export default function OeconomiaDashboard() {
               </CollapsibleTrigger>
               <CollapsibleContent>
                 <div className="px-6 border-t border-border/50">
-                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4"></div>
-                </div>
-                    <div className="rounded-2xl bg-card backdrop-blur p-5 shadow-lg hover:shadow-xl transition-shadow" data-testid="stat-net-worth">
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+                    <div className="rounded-2xl bg-card backdrop-blur p-5 shadow-lg hover:shadow-xl transition-shadow" data-testid="stat-net-worth"></div>
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-2">
                           <div className="h-8 w-8 rounded-xl bg-primary/10 text-primary grid place-items-center">
@@ -485,9 +483,8 @@ export default function OeconomiaDashboard() {
               </CollapsibleTrigger>
               <CollapsibleContent>
                 <div className="px-6 border-t border-border/50">
-                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-6"></div>
-                </div>
-                    <div className="rounded-xl bg-muted/20 p-6" data-testid="card-stakes-detail">
+                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                    <div className="rounded-xl bg-muted/20 p-6" data-testid="card-stakes-detail"></div>
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="font-semibold">Active Stakes</h3>
                         <span className="text-xs text-muted-foreground">Live Data</span>
