@@ -284,33 +284,57 @@ export default function OeconomiaDashboard() {
               <CollapsibleContent>
                 <div className="px-6 pb-6 border-t border-border/50">
                   <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 pt-6">
-                    <StatTile 
-                      icon={<BarChart3 className="h-4 w-4" />} 
-                      title="Net Worth" 
-                      value={netWorth}
-                      sub="Total portfolio value"
-                    />
-                    <StatTile 
-                      icon={<TrendingUp className="h-4 w-4" />} 
-                      title="P&L" 
-                      value={portfolioLoading ? "Loading..." : (portfolioData?.pnl ? formatCurrency(portfolioData.pnl) : (walletData.isConnected ? "—" : "Connect wallet"))}
-                      sub="Since first transaction"
-                      color="green"
-                    />
-                    <StatTile 
-                      icon={<Sigma className="h-4 w-4" />} 
-                      title="Total Trades" 
-                      value={portfolioLoading ? "Loading..." : (portfolioData?.totalTrades?.toString() || (walletData.isConnected ? "—" : "Connect wallet"))}
-                      sub="Lifetime transactions"
-                      color="blue"
-                    />
-                    <StatTile 
-                      icon={<CheckCircle2 className="h-4 w-4" />} 
-                      title="Health Score" 
-                      value={healthScore}
-                      sub="Portfolio diversification"
-                      color="secondary"
-                    />
+                    <div className="rounded-2xl bg-card backdrop-blur p-5 shadow-lg hover:shadow-xl transition-shadow" data-testid="stat-net-worth">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <div className="h-8 w-8 rounded-xl bg-primary/10 text-primary grid place-items-center">
+                            <BarChart3 className="h-4 w-4" />
+                          </div>
+                          <span className="text-xs uppercase tracking-wide text-muted-foreground">Net Worth</span>
+                        </div>
+                      </div>
+                      <div className="text-2xl font-semibold text-foreground" data-testid="value-net-worth">{netWorth}</div>
+                      <div className="text-xs text-muted-foreground mt-1">Total portfolio value</div>
+                    </div>
+                    
+                    <div className="rounded-2xl bg-card backdrop-blur p-5 shadow-lg hover:shadow-xl transition-shadow" data-testid="stat-p&l">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <div className="h-8 w-8 rounded-xl bg-green-500/10 text-green-400 grid place-items-center">
+                            <TrendingUp className="h-4 w-4" />
+                          </div>
+                          <span className="text-xs uppercase tracking-wide text-muted-foreground">P&L</span>
+                        </div>
+                      </div>
+                      <div className="text-2xl font-semibold text-foreground" data-testid="value-p&l">{portfolioLoading ? "Loading..." : (portfolioData?.pnl ? formatCurrency(portfolioData.pnl) : (walletData.isConnected ? "—" : "Connect wallet"))}</div>
+                      <div className="text-xs text-muted-foreground mt-1">Since first transaction</div>
+                    </div>
+                    
+                    <div className="rounded-2xl bg-card backdrop-blur p-5 shadow-lg hover:shadow-xl transition-shadow" data-testid="stat-total-trades">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <div className="h-8 w-8 rounded-xl bg-blue-500/10 text-blue-400 grid place-items-center">
+                            <Sigma className="h-4 w-4" />
+                          </div>
+                          <span className="text-xs uppercase tracking-wide text-muted-foreground">Total Trades</span>
+                        </div>
+                      </div>
+                      <div className="text-2xl font-semibold text-foreground" data-testid="value-total-trades">{portfolioLoading ? "Loading..." : (portfolioData?.totalTrades?.toString() || (walletData.isConnected ? "—" : "Connect wallet"))}</div>
+                      <div className="text-xs text-muted-foreground mt-1">Lifetime transactions</div>
+                    </div>
+                    
+                    <div className="rounded-2xl bg-card backdrop-blur p-5 shadow-lg hover:shadow-xl transition-shadow" data-testid="stat-health-score">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <div className="h-8 w-8 rounded-xl bg-secondary/10 text-secondary grid place-items-center">
+                            <CheckCircle2 className="h-4 w-4" />
+                          </div>
+                          <span className="text-xs uppercase tracking-wide text-muted-foreground">Health Score</span>
+                        </div>
+                      </div>
+                      <div className="text-2xl font-semibold text-foreground" data-testid="value-health-score">{healthScore}</div>
+                      <div className="text-xs text-muted-foreground mt-1">Portfolio diversification</div>
+                    </div>
                   </div>
                 </div>
               </CollapsibleContent>
@@ -339,7 +363,7 @@ export default function OeconomiaDashboard() {
               <CollapsibleContent>
                 <div className="px-6 pb-6 border-t border-border/50">
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 pt-6">
-                    <div className="rounded-xl border border-border/50 bg-muted/20 p-6" data-testid="card-oec-wallet">
+                    <div className="rounded-xl bg-muted/20 p-6" data-testid="card-oec-wallet">
                       <div className="flex items-center gap-2 mb-4">
                         <PiggyBank className="h-5 w-5 text-primary" />
                         <h3 className="font-semibold">Wallet Balance</h3>
@@ -351,7 +375,7 @@ export default function OeconomiaDashboard() {
                       </div>
                     </div>
 
-                    <div className="rounded-xl border border-border/50 bg-muted/20 p-6" data-testid="card-oec-staking">
+                    <div className="rounded-xl bg-muted/20 p-6" data-testid="card-oec-staking">
                       <div className="flex items-center gap-2 mb-4">
                         <Layers className="h-5 w-5 text-primary" />
                         <h3 className="font-semibold">Staking</h3>
@@ -363,7 +387,7 @@ export default function OeconomiaDashboard() {
                       </div>
                     </div>
 
-                    <div className="rounded-xl border border-border/50 bg-muted/20 p-6" data-testid="card-oec-governance">
+                    <div className="rounded-xl bg-muted/20 p-6" data-testid="card-oec-governance">
                       <div className="flex items-center gap-2 mb-4">
                         <Gauge className="h-5 w-5 text-primary" />
                         <h3 className="font-semibold">Governance</h3>
@@ -402,7 +426,7 @@ export default function OeconomiaDashboard() {
               <CollapsibleContent>
                 <div className="px-6 pb-6 border-t border-border/50">
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 pt-6">
-                    <div className="rounded-xl border border-border/50 bg-muted/20 p-6" data-testid="card-eloq-wallet">
+                    <div className="rounded-xl bg-muted/20 p-6" data-testid="card-eloq-wallet">
                       <div className="flex items-center gap-2 mb-4">
                         <PiggyBank className="h-5 w-5 text-secondary" />
                         <h3 className="font-semibold">Wallet Balance</h3>
@@ -414,7 +438,7 @@ export default function OeconomiaDashboard() {
                       </div>
                     </div>
 
-                    <div className="rounded-xl border border-border/50 bg-muted/20 p-6" data-testid="card-eloq-solo">
+                    <div className="rounded-xl bg-muted/20 p-6" data-testid="card-eloq-solo">
                       <div className="flex items-center gap-2 mb-4">
                         <CheckCircle2 className="h-5 w-5 text-secondary" />
                         <h3 className="font-semibold">Solo Staking</h3>
@@ -426,7 +450,7 @@ export default function OeconomiaDashboard() {
                       </div>
                     </div>
 
-                    <div className="rounded-xl border border-border/50 bg-muted/20 p-6" data-testid="card-eloq-farming">
+                    <div className="rounded-xl bg-muted/20 p-6" data-testid="card-eloq-farming">
                       <div className="flex items-center gap-2 mb-4">
                         <Percent className="h-5 w-5 text-secondary" />
                         <h3 className="font-semibold">Liquidity Farming</h3>
@@ -460,12 +484,12 @@ export default function OeconomiaDashboard() {
               <CollapsibleContent>
                 <div className="px-6 pb-6 border-t border-border/50">
                   <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 pt-6">
-                    <div className="rounded-xl border border-border/50 bg-muted/20 p-6" data-testid="card-stakes-detail">
+                    <div className="rounded-xl bg-muted/20 p-6" data-testid="card-stakes-detail">
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="font-semibold">Active Stakes</h3>
                         <span className="text-xs text-muted-foreground">Live Data</span>
                       </div>
-                      <div className="overflow-hidden rounded-lg border border-border/50">
+                      <div className="overflow-hidden rounded-lg">
                         <table className="w-full text-sm">
                           <thead className="bg-muted/50 text-muted-foreground">
                             <tr>
@@ -485,7 +509,7 @@ export default function OeconomiaDashboard() {
                               </tr>
                             ) : (
                               stakes.map((stake, index) => (
-                                <tr key={index} className="border-t border-border/50 hover:bg-muted/30" data-testid={`row-stake-${index}`}>
+                                <tr key={index} className="hover:bg-muted/30" data-testid={`row-stake-${index}`}>
                                   <td className="p-3">{stake.pool}</td>
                                   <td className="p-3">{stake.token}</td>
                                   <td className="p-3 text-right font-mono">{stake.amount}</td>
@@ -499,7 +523,7 @@ export default function OeconomiaDashboard() {
                       </div>
                     </div>
 
-                    <div className="rounded-xl border border-border/50 bg-muted/20 p-6" data-testid="card-recent-transactions">
+                    <div className="rounded-xl bg-muted/20 p-6" data-testid="card-recent-transactions">
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="font-semibold">Recent Transactions</h3>
                         <button className="text-xs text-primary hover:text-primary/80" data-testid="button-view-all">View All</button>
@@ -511,7 +535,7 @@ export default function OeconomiaDashboard() {
                           </div>
                         ) : (
                           transactions.map((tx, index) => (
-                            <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-background/50 border border-border/30" data-testid={`transaction-${index}`}>
+                            <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-background/50" data-testid={`transaction-${index}`}>
                               <div className="flex items-center gap-3">
                                 <div className={`h-8 w-8 rounded-lg grid place-items-center ${
                                   tx.icon === "reward" ? "bg-green-500/10" :
