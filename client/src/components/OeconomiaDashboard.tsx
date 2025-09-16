@@ -219,9 +219,9 @@ export default function OeconomiaDashboard() {
           </button>
         </header>
 
-        {/* Profile and Wallet Status */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8">
-          <div className="lg:col-span-2 rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-profile">
+        {/* Profile */}
+        <div className="mb-8">
+          <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-profile">
             <div className="flex items-center gap-4">
               <div className="h-16 w-16 rounded-2xl bg-muted border border-border grid place-items-center">
                 <UserCircle2 className="h-9 w-9 text-muted-foreground" />
@@ -229,38 +229,6 @@ export default function OeconomiaDashboard() {
               <div className="flex-1">
                 <div className="text-sm text-muted-foreground">Profile Name</div>
                 <div className="text-lg font-semibold" data-testid="text-profile-name">Connect wallet to view profile</div>
-              </div>
-              <div className="hidden sm:block w-px h-10 bg-border" />
-              <div className="flex-1">
-                <div className="text-sm text-muted-foreground">Profile Image</div>
-                <div className="text-sm text-accent-foreground">Upload Avatar</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-border bg-card backdrop-blur p-6 shadow-lg" data-testid="card-wallet-status">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <Wallet className="h-5 w-5 text-muted-foreground" />
-                <span className="text-sm font-medium">Wallet Status</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs">
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5">
-                  <span className={`h-2 w-2 rounded-full ${walletData.isConnected ? 'bg-green-400' : 'bg-yellow-500'}`} />
-                  <span data-testid="status-connection">{walletData.isConnected ? "Connected" : "Disconnected"}</span>
-                </span>
-              </div>
-            </div>
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <span className="text-sm text-muted-foreground">Address</span>
-                <span className="text-sm font-mono" data-testid="text-wallet-address">
-                  {walletData.address || "Not connected"}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-sm text-muted-foreground">Network</span>
-                <span className="text-sm" data-testid="text-network">{walletData.network}</span>
               </div>
             </div>
           </div>
