@@ -484,7 +484,7 @@ export default function OeconomiaDashboard() {
               <CollapsibleContent>
                 <div className="px-6 border-t border-border/50">
                   <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-                    <div className="rounded-xl bg-muted/20 p-6" data-testid="card-stakes-detail"></div>
+                    <div className="rounded-xl bg-muted/20 p-6" data-testid="card-stakes-detail">
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="font-semibold">Active Stakes</h3>
                         <span className="text-xs text-muted-foreground">Live Data</span>
@@ -508,7 +508,7 @@ export default function OeconomiaDashboard() {
                                 </td>
                               </tr>
                             ) : (
-                              stakes.map((stake, index) => (
+                              stakes.map((stake: any, index: number) => (
                                 <tr key={index} className="hover:bg-muted/30" data-testid={`row-stake-${index}`}>
                                   <td className="p-3">{stake.pool}</td>
                                   <td className="p-3">{stake.token}</td>
