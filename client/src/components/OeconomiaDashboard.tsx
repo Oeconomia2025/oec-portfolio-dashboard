@@ -251,7 +251,6 @@ export default function OeconomiaDashboard() {
               <div className="h-8 w-8 rounded-lg bg-primary/10 grid place-items-center">
                 <Coins className="h-5 w-5 text-primary" />
               </div>
-              <span className="font-semibold text-lg">Portfolio</span>
             </div>
           </SidebarHeader>
           
