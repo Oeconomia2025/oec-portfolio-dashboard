@@ -245,7 +245,7 @@ export default function OeconomiaDashboard() {
   return (
     <SidebarProvider>
       <div className="min-h-screen w-full bg-gradient-to-b from-gray-950 to-gray-900 text-foreground flex">
-        <Sidebar>
+        <Sidebar collapsible="icon">
           <SidebarHeader>
           </SidebarHeader>
           
