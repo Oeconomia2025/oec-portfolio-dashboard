@@ -171,7 +171,7 @@ export default function OeconomiaDashboard() {
   const brands = [
     {
       name: "Oeconomia",
-      logo: "https://pub-37d61a7eb7ae432fb098830b67d7ddda.r2.dev/oeconomia.png"
+      logo: "https://pub-37d61a7eb7ae45898b46702664710cb2.r2.dev/With%20Border/Art%20Border.png"
     },
     {
       name: "Alluria",
