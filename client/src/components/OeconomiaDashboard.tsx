@@ -259,7 +259,7 @@ export default function OeconomiaDashboard() {
             {/* Oeconomia at the very top */}
             <SidebarMenu>
               <SidebarMenuItem key={oeconomiaBrand.name}>
-                <SidebarMenuButton size="lg" tooltip={oeconomiaBrand.name} className="text-lg">
+                <SidebarMenuButton size="lg" tooltip={oeconomiaBrand.name} className="text-lg hover:bg-transparent hover:text-inherit">
                   <img 
                     src={oeconomiaBrand.logo} 
                     alt={oeconomiaBrand.name}
