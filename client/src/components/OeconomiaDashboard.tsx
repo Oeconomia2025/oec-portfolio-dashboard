@@ -262,22 +262,25 @@ export default function OeconomiaDashboard() {
                 <SidebarMenu>
                   {brands.map((brand) => (
                     <SidebarMenuItem key={brand.name}>
-                      <div className="flex items-center gap-3 p-2 text-sm">
+                      <div className="flex items-center gap-3 p-2 text-sm hover:bg-sidebar-accent hover:text-sidebar-accent-foreground rounded-md transition-colors">
                         <img 
                           src={brand.logo} 
                           alt={brand.name}
-                          className="h-6 w-6 rounded-sm object-cover"
+                          className="h-8 w-8 rounded-md object-cover flex-shrink-0"
                           onError={(e) => {
                             // Fallback to a default icon if image fails to load
                             const target = e.target as HTMLImageElement;
                             target.style.display = 'none';
-                            target.nextElementSibling?.classList.remove('hidden');
+                            const fallback = target.nextElementSibling as HTMLElement;
+                            if (fallback) {
+                              fallback.classList.remove('hidden');
+                            }
                           }}
                         />
-                        <div className="h-6 w-6 rounded-sm bg-muted/50 grid place-items-center hidden">
-                          <Coins className="h-4 w-4 text-muted-foreground" />
+                        <div className="h-8 w-8 rounded-md bg-muted/50 grid place-items-center hidden flex-shrink-0">
+                          <Coins className="h-5 w-5 text-muted-foreground" />
                         </div>
-                        <span>{brand.name}</span>
+                        <span className="font-medium">{brand.name}</span>
                       </div>
                     </SidebarMenuItem>
                   ))}
