@@ -251,7 +251,7 @@ export default function OeconomiaDashboard() {
           
           <SidebarContent>
             <SidebarGroup>
-              <SidebarGroupLabel className="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-purple-400">Protocols</SidebarGroupLabel>
+              <SidebarGroupLabel>Protocols</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   {brands.map((brand) => (
@@ -274,7 +274,7 @@ export default function OeconomiaDashboard() {
                         <div className="h-8 w-8 rounded-md bg-muted/50 grid place-items-center hidden flex-shrink-0">
                           <Coins className="h-5 w-5 text-muted-foreground" />
                         </div>
-                        <span className="font-medium bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-purple-400">{brand.name}</span>
+                        <span className="font-medium">{brand.name}</span>
                       </div>
                     </SidebarMenuItem>
                   ))}
@@ -293,22 +293,20 @@ export default function OeconomiaDashboard() {
         </Sidebar>
 
         <SidebarInset className="flex-1">
-          {/* Sidebar Toggle - positioned close to sidebar edge */}
-          <div className="fixed top-4 left-4 z-50">
-            <SidebarTrigger />
-          </div>
-          
           {/* Top Bar */}
           <div className="sticky top-0 z-50 border-b border-border bg-card/30 backdrop-blur">
             <div className="px-4 sm:px-6 lg:px-8">
               <header className="flex items-center justify-between py-4" data-testid="dashboard-header">
-                <div>
-                  <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-purple-400">
-                      Oeconomia Dashboard
-                    </span>
-                  </h1>
-                  <p className="text-sm text-muted-foreground mt-1">Portfolio Management • Real-time DeFi Analytics</p>
+                <div className="flex items-center gap-4">
+                  <SidebarTrigger />
+                  <div>
+                    <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+                      <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-purple-400">
+                        Oeconomia Dashboard
+                      </span>
+                    </h1>
+                    <p className="text-sm text-muted-foreground mt-1">Portfolio Management • Real-time DeFi Analytics</p>
+                  </div>
                 </div>
                 <button 
                   onClick={handleWalletConnect}
