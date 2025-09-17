@@ -247,9 +247,6 @@ export default function OeconomiaDashboard() {
       <div className="min-h-screen w-full bg-gradient-to-b from-gray-950 to-gray-900 text-foreground flex">
         <Sidebar>
           <SidebarHeader>
-            <div className="flex items-center justify-between p-2">
-              <SidebarTrigger />
-            </div>
           </SidebarHeader>
           
           <SidebarContent>
@@ -300,13 +297,16 @@ export default function OeconomiaDashboard() {
           <div className="sticky top-0 z-50 border-b border-border bg-card/30 backdrop-blur">
             <div className="px-4 sm:px-6 lg:px-8">
               <header className="flex items-center justify-between py-4" data-testid="dashboard-header">
-                <div>
-                  <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-purple-400">
-                      Oeconomia Dashboard
-                    </span>
-                  </h1>
-                  <p className="text-sm text-muted-foreground mt-1">Portfolio Management • Real-time DeFi Analytics</p>
+                <div className="flex items-center gap-4">
+                  <SidebarTrigger />
+                  <div>
+                    <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+                      <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-purple-400">
+                        Oeconomia Dashboard
+                      </span>
+                    </h1>
+                    <p className="text-sm text-muted-foreground mt-1">Portfolio Management • Real-time DeFi Analytics</p>
+                  </div>
                 </div>
                 <button 
                   onClick={handleWalletConnect}
