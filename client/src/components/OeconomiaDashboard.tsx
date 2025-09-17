@@ -255,7 +255,7 @@ export default function OeconomiaDashboard() {
     <SidebarProvider>
       <div className="min-h-screen w-full bg-gradient-to-b from-gray-950 to-gray-900 text-foreground flex">
         <Sidebar collapsible="icon">
-          <SidebarHeader>
+          <SidebarHeader className="mt-4">
             {/* Oeconomia at the very top */}
             <SidebarMenu>
               <SidebarMenuItem key={oeconomiaBrand.name}>
