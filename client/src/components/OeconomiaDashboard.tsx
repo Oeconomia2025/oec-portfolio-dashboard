@@ -247,9 +247,6 @@ export default function OeconomiaDashboard() {
       <div className="min-h-screen w-full bg-gradient-to-b from-gray-950 to-gray-900 text-foreground flex">
         <Sidebar>
           <SidebarHeader>
-            <div className="flex items-center justify-between p-2">
-              <SidebarTrigger />
-            </div>
           </SidebarHeader>
           
           <SidebarContent>
@@ -296,6 +293,11 @@ export default function OeconomiaDashboard() {
         </Sidebar>
 
         <SidebarInset className="flex-1">
+          {/* Sidebar Toggle - positioned close to sidebar edge */}
+          <div className="fixed top-4 left-4 z-50">
+            <SidebarTrigger />
+          </div>
+          
           {/* Top Bar */}
           <div className="sticky top-0 z-50 border-b border-border bg-card/30 backdrop-blur">
             <div className="px-4 sm:px-6 lg:px-8">
