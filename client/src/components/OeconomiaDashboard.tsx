@@ -187,7 +187,7 @@ export default function OeconomiaDashboard() {
     },
     {
       name: "Iridescia",
-      logo: "https://pub-37d61a7eb7ae432fb098830b67d7ddda.r2.dev/iridescia.png"
+      logo: "https://pub-37d61a7eb7ae45898b46702664710cb2.r2.dev/With%20Border/III%20Border.png"
     }
   ];
 
