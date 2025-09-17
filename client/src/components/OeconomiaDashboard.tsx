@@ -256,41 +256,36 @@ export default function OeconomiaDashboard() {
       <div className="min-h-screen w-full bg-gradient-to-b from-gray-950 to-gray-900 text-foreground flex">
         <Sidebar collapsible="icon">
           <SidebarHeader>
+            {/* Oeconomia at the very top */}
+            <SidebarMenu>
+              <SidebarMenuItem key={oeconomiaBrand.name}>
+                <SidebarMenuButton size="lg" tooltip={oeconomiaBrand.name} className="text-lg">
+                  <img 
+                    src={oeconomiaBrand.logo} 
+                    alt={oeconomiaBrand.name}
+                    className="h-8 w-8 rounded-md object-cover flex-shrink-0"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                      const fallback = target.nextElementSibling as HTMLElement;
+                      if (fallback) {
+                        fallback.classList.remove('hidden');
+                      }
+                    }}
+                  />
+                  <div className="h-8 w-8 rounded-md bg-muted/50 grid place-items-center hidden flex-shrink-0">
+                    <Coins className="h-5 w-5 text-muted-foreground" />
+                  </div>
+                  <span className="font-medium text-lg bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-purple-400 group-data-[collapsible=icon]:hidden">
+                    {oeconomiaBrand.name}
+                  </span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
           </SidebarHeader>
 
           <SidebarContent>
-            {/* Oeconomia - Independent at the top */}
-            <SidebarGroup>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  <SidebarMenuItem key={oeconomiaBrand.name}>
-                    <SidebarMenuButton size="lg" tooltip={oeconomiaBrand.name} className="text-lg">
-                      <img 
-                        src={oeconomiaBrand.logo} 
-                        alt={oeconomiaBrand.name}
-                        className="h-8 w-8 rounded-md object-cover flex-shrink-0"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
-                          const fallback = target.nextElementSibling as HTMLElement;
-                          if (fallback) {
-                            fallback.classList.remove('hidden');
-                          }
-                        }}
-                      />
-                      <div className="h-8 w-8 rounded-md bg-muted/50 grid place-items-center hidden flex-shrink-0">
-                        <Coins className="h-5 w-5 text-muted-foreground" />
-                      </div>
-                      <span className="font-medium text-lg bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-purple-400 group-data-[collapsible=icon]:hidden">
-                        {oeconomiaBrand.name}
-                      </span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-
-            {/* Other brands - Separate group */}
+            {/* Other brands */}
             <SidebarGroup>
               <SidebarGroupContent>
                 <SidebarMenu>
