@@ -168,6 +168,11 @@ export default function OeconomiaDashboard() {
     network: "Ethereum"
   });
 
+  const oeconomiaBrand = {
+    name: "Oeconomia",
+    logo: "https://pub-37d61a7eb7ae45898b46702664710cb2.r2.dev/With%20Border/OEC%20Border.png"
+  };
+
   const brands = [
     { 
       name: 'Governance', 
@@ -176,10 +181,6 @@ export default function OeconomiaDashboard() {
     {
       name: "Staking", 
       logo: "https://pub-37d61a7eb7ae45898b46702664710cb2.r2.dev/With%20Border/Stake%20Border.png"
-    },
-    {
-      name: "Oeconomia",
-      logo: "https://pub-37d61a7eb7ae45898b46702664710cb2.r2.dev/With%20Border/OEC%20Border.png"
     },
     {
       name: "Alluria",
@@ -261,6 +262,32 @@ export default function OeconomiaDashboard() {
             <SidebarGroup>
               <SidebarGroupContent>
                 <SidebarMenu>
+                  {/* Oeconomia at the top */}
+                  <SidebarMenuItem key={oeconomiaBrand.name}>
+                    <SidebarMenuButton size="lg" tooltip={oeconomiaBrand.name} className="text-lg">
+                      <img 
+                        src={oeconomiaBrand.logo} 
+                        alt={oeconomiaBrand.name}
+                        className="h-8 w-8 rounded-md object-cover flex-shrink-0"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                          const fallback = target.nextElementSibling as HTMLElement;
+                          if (fallback) {
+                            fallback.classList.remove('hidden');
+                          }
+                        }}
+                      />
+                      <div className="h-8 w-8 rounded-md bg-muted/50 grid place-items-center hidden flex-shrink-0">
+                        <Coins className="h-5 w-5 text-muted-foreground" />
+                      </div>
+                      <span className="font-medium text-lg bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-purple-400 group-data-[collapsible=icon]:hidden">
+                        {oeconomiaBrand.name}
+                      </span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  
+                  {/* Other brands */}
                   {brands.map((brand) => (
                     <SidebarMenuItem key={brand.name}>
                       <SidebarMenuButton size="lg" tooltip={brand.name} className="text-lg">
