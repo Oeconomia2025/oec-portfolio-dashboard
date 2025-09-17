@@ -574,21 +574,8 @@ export default function OeconomiaDashboard() {
             <Collapsible open={isStakesOpen} onOpenChange={setIsStakesOpen}>
               <CollapsibleTrigger className="w-full">
                 <div className="flex items-center justify-between p-6 hover:bg-muted/20 transition-colors">
-                  <div className="flex items-center gap-3">
-                    <img 
-                      src="https://pub-37d61a7eb7ae45898b46702664710cb2.r2.dev/With%20Border/Art%20Border.png" 
-                      alt="Artivya"
-                      className="h-8 w-8 rounded-md object-cover flex-shrink-0"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.style.display = 'none';
-                        const fallback = target.nextElementSibling as HTMLElement;
-                        if (fallback) {
-                          fallback.classList.remove('hidden');
-                        }
-                      }}
-                    />
-                    <Layers className="h-5 w-5 text-primary hidden" />
+                  <div className="flex items-center gap-2">
+                    <Layers className="h-5 w-5 text-primary" />
                     <h2 className="text-lg font-semibold tracking-tight text-foreground">Stakes & Transactions</h2>
                   </div>
                   <ChevronDown className={`h-4 w-4 transition-transform ${isStakesOpen ? 'rotate-180' : ''}`} />
