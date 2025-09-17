@@ -256,7 +256,7 @@ export default function OeconomiaDashboard() {
                 <SidebarMenu>
                   {brands.map((brand) => (
                     <SidebarMenuItem key={brand.name}>
-                      <div className="flex items-center gap-3 p-2 text-lg hover:bg-sidebar-accent hover:text-sidebar-accent-foreground rounded-md transition-colors">
+                      <SidebarMenuButton tooltip={brand.name} className="text-lg">
                         <img 
                           src={brand.logo} 
                           alt={brand.name}
@@ -275,7 +275,7 @@ export default function OeconomiaDashboard() {
                           <Coins className="h-5 w-5 text-muted-foreground" />
                         </div>
                         <span className="font-medium bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-purple-400">{brand.name}</span>
-                      </div>
+                      </SidebarMenuButton>
                     </SidebarMenuItem>
                   ))}
                 </SidebarMenu>
