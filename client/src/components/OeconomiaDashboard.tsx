@@ -251,12 +251,11 @@ export default function OeconomiaDashboard() {
           
           <SidebarContent>
             <SidebarGroup>
-              <SidebarGroupLabel className="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-purple-400">Protocols</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   {brands.map((brand) => (
                     <SidebarMenuItem key={brand.name}>
-                      <SidebarMenuButton size="lg" tooltip={brand.name}>
+                      <SidebarMenuButton size="lg" tooltip={brand.name} className="text-lg">
                         <img 
                           src={brand.logo} 
                           alt={brand.name}
@@ -274,7 +273,7 @@ export default function OeconomiaDashboard() {
                         <div className="h-8 w-8 rounded-md bg-muted/50 grid place-items-center hidden flex-shrink-0">
                           <Coins className="h-5 w-5 text-muted-foreground" />
                         </div>
-                        <span className="font-medium bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-purple-400 group-data-[collapsible=icon]:hidden">
+                        <span className="font-medium text-lg bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-purple-400 group-data-[collapsible=icon]:hidden">
                           {brand.name}
                         </span>
                       </SidebarMenuButton>
