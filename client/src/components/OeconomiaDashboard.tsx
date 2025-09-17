@@ -17,6 +17,21 @@ import {
   ChevronDown
 } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
+import { 
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarTrigger,
+} from "./ui/sidebar";
 import { useTokenPrices, usePortfolio, useStakingPositions, useWalletConnection, formatCurrency, formatPercentageChange } from "../hooks/useBlockchainData";
 
 interface PortfolioData {
@@ -153,6 +168,31 @@ export default function OeconomiaDashboard() {
     network: "Ethereum"
   });
 
+  const [selectedBrand, setSelectedBrand] = useState("Oeconomia");
+
+  const brands = [
+    {
+      name: "Oeconomia",
+      logo: "https://pub-37d61a7eb7ae432fb098830b67d7ddda.r2.dev/oeconomia.png"
+    },
+    {
+      name: "Alluria",
+      logo: "https://pub-37d61a7eb7ae432fb098830b67d7ddda.r2.dev/alluria.png"
+    },
+    {
+      name: "Eloqura",
+      logo: "https://pub-37d61a7eb7ae432fb098830b67d7ddda.r2.dev/eloqura.png"
+    },
+    {
+      name: "Artivya",
+      logo: "https://pub-37d61a7eb7ae432fb098830b67d7ddda.r2.dev/artivya.png"
+    },
+    {
+      name: "Iridescia",
+      logo: "https://pub-37d61a7eb7ae432fb098830b67d7ddda.r2.dev/iridescia.png"
+    }
+  ];
+
   // Collapsible section states
   const [isPortfolioOpen, setIsPortfolioOpen] = useState(true);
   const [isOECOpen, setIsOECOpen] = useState(true);
@@ -205,32 +245,91 @@ export default function OeconomiaDashboard() {
   const transactions: TransactionData[] = []; // Will be populated when transaction API is implemented
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-gray-950 to-gray-900 text-foreground">
-      {/* Top Bar */}
-      <div className="sticky top-0 z-50 border-b border-border bg-card/30 backdrop-blur">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <header className="flex items-center justify-between py-4" data-testid="dashboard-header">
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-purple-400">
-                  Oeconomia Dashboard
-                </span>
-              </h1>
-              <p className="text-sm text-muted-foreground mt-1">Portfolio Management • Real-time DeFi Analytics</p>
+    <SidebarProvider>
+      <div className="min-h-screen w-full bg-gradient-to-b from-gray-950 to-gray-900 text-foreground flex">
+        <Sidebar>
+          <SidebarHeader>
+            <div className="flex items-center gap-2 px-2 py-4">
+              <div className="h-8 w-8 rounded-lg bg-primary/10 grid place-items-center">
+                <Coins className="h-5 w-5 text-primary" />
+              </div>
+              <span className="font-semibold text-lg">Portfolio</span>
             </div>
-            <button 
-              onClick={handleWalletConnect}
-              className="inline-flex items-center gap-2 rounded-xl border border-border bg-card/50 backdrop-blur px-4 py-2 text-sm hover:bg-card/70 transition-colors"
-              data-testid="button-connect-wallet"
-            >
-              <Wallet className="h-4 w-4" />
-              <span>{walletData.isConnected ? "Disconnect" : "Connect Wallet"}</span>
-            </button>
-          </header>
-        </div>
-      </div>
+          </SidebarHeader>
+          
+          <SidebarContent>
+            <SidebarGroup>
+              <SidebarGroupLabel>Brands</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {brands.map((brand) => (
+                    <SidebarMenuItem key={brand.name}>
+                      <SidebarMenuButton
+                        onClick={() => setSelectedBrand(brand.name)}
+                        isActive={selectedBrand === brand.name}
+                        className="flex items-center gap-3"
+                      >
+                        <img 
+                          src={brand.logo} 
+                          alt={brand.name}
+                          className="h-6 w-6 rounded-sm object-cover"
+                          onError={(e) => {
+                            // Fallback to a default icon if image fails to load
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                            target.nextElementSibling?.classList.remove('hidden');
+                          }}
+                        />
+                        <div className="h-6 w-6 rounded-sm bg-muted/50 grid place-items-center hidden">
+                          <Coins className="h-4 w-4 text-muted-foreground" />
+                        </div>
+                        <span>{brand.name}</span>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          </SidebarContent>
+          
+          <SidebarFooter>
+            <div className="p-2">
+              <div className="text-xs text-muted-foreground text-center">
+                © 2024 Portfolio Dashboard
+              </div>
+            </div>
+          </SidebarFooter>
+        </Sidebar>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+        <SidebarInset className="flex-1">
+          {/* Top Bar */}
+          <div className="sticky top-0 z-50 border-b border-border bg-card/30 backdrop-blur">
+            <div className="px-4 sm:px-6 lg:px-8">
+              <header className="flex items-center justify-between py-4" data-testid="dashboard-header">
+                <div className="flex items-center gap-4">
+                  <SidebarTrigger />
+                  <div>
+                    <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+                      <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-purple-400">
+                        {selectedBrand} Dashboard
+                      </span>
+                    </h1>
+                    <p className="text-sm text-muted-foreground mt-1">Portfolio Management • Real-time DeFi Analytics</p>
+                  </div>
+                </div>
+                <button 
+                  onClick={handleWalletConnect}
+                  className="inline-flex items-center gap-2 rounded-xl border border-border bg-card/50 backdrop-blur px-4 py-2 text-sm hover:bg-card/70 transition-colors"
+                  data-testid="button-connect-wallet"
+                >
+                  <Wallet className="h-4 w-4" />
+                  <span>{walletData.isConnected ? "Disconnect" : "Connect Wallet"}</span>
+                </button>
+              </header>
+            </div>
+          </div>
+
+          <div className="px-4 sm:px-6 lg:px-8 py-8">
 
         {/* Profile */}
         <div className="mb-6 flex items-center gap-4">
@@ -548,19 +647,21 @@ export default function OeconomiaDashboard() {
         </div>
 
         {/* Footer */}
-        <footer className="mt-12 pt-8 border-t border-border" data-testid="dashboard-footer">
-          <div className="flex items-center justify-between text-sm text-muted-foreground">
-            <div>© 2024 Oeconomia Dashboard. Portfolio management made simple.</div>
-            <div className="flex items-center gap-4">
-              <span>Last sync: <span data-testid="text-last-sync">Connect wallet for live sync</span></span>
-              <div className="flex items-center gap-1">
-                <span className={`h-2 w-2 rounded-full ${walletData.isConnected ? 'bg-green-400' : 'bg-yellow-500'}`}></span>
-                <span data-testid="status-live">{walletData.isConnected ? "Live" : "Offline"}</span>
+            <footer className="mt-12 pt-8 border-t border-border" data-testid="dashboard-footer">
+              <div className="flex items-center justify-between text-sm text-muted-foreground">
+                <div>© 2024 {selectedBrand} Dashboard. Portfolio management made simple.</div>
+                <div className="flex items-center gap-4">
+                  <span>Last sync: <span data-testid="text-last-sync">Connect wallet for live sync</span></span>
+                  <div className="flex items-center gap-1">
+                    <span className={`h-2 w-2 rounded-full ${walletData.isConnected ? 'bg-green-400' : 'bg-yellow-500'}`}></span>
+                    <span data-testid="status-live">{walletData.isConnected ? "Live" : "Offline"}</span>
+                  </div>
+                </div>
               </div>
-            </div>
+            </footer>
           </div>
-        </footer>
+        </SidebarInset>
       </div>
-    </div>
+    </SidebarProvider>
   );
 }
