@@ -284,11 +284,6 @@ export default function OeconomiaDashboard() {
           </SidebarContent>
           
           <SidebarFooter>
-            <div className="p-2">
-              <div className="text-xs text-muted-foreground text-center">
-                © 2024 Portfolio Dashboard
-              </div>
-            </div>
           </SidebarFooter>
         </Sidebar>
 
