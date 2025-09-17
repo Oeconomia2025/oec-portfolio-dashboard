@@ -188,7 +188,15 @@ export default function OeconomiaDashboard() {
     {
       name: "Iridescia",
       logo: "https://pub-37d61a7eb7ae45898b46702664710cb2.r2.dev/With%20Border/III%20Border.png"
-    }
+    },
+    {
+      name: "Staking", 
+      logo: "https://pub-37d61a7eb7ae45898b46702664710cb2.r2.dev/With%20Border/Stake%20Border.png"
+    },
+    { 
+      name: 'Governance', 
+      logo: 'https://pub-37d61a7eb7ae45898b46702664710cb2.r2.dev/With%20Border/Governance%20Border.png' 
+    },
   ];
 
   // Collapsible section states
@@ -248,7 +256,7 @@ export default function OeconomiaDashboard() {
         <Sidebar collapsible="icon">
           <SidebarHeader>
           </SidebarHeader>
-          
+
           <SidebarContent>
             <SidebarGroup>
               <SidebarGroupContent>
@@ -283,7 +291,7 @@ export default function OeconomiaDashboard() {
               </SidebarGroupContent>
             </SidebarGroup>
           </SidebarContent>
-          
+
           <SidebarFooter>
           </SidebarFooter>
         </Sidebar>
@@ -416,7 +424,7 @@ export default function OeconomiaDashboard() {
                 <div className="flex items-center justify-between p-6 hover:bg-muted/20 transition-colors">
                   <div className="flex items-center gap-3">
                     <img 
-                      src="https://pub-37d61a7eb7ae432fb098830b67d7ddda.r2.dev/oeconomia.png" 
+                      src="https://pub-37d61a7eb7ae45898b46702664710cb2.r2.dev/oeconomia.png" 
                       alt="Oeconomia"
                       className="h-8 w-8 rounded-md object-cover flex-shrink-0"
                       onError={(e) => {
@@ -492,7 +500,7 @@ export default function OeconomiaDashboard() {
                 <div className="flex items-center justify-between p-6 hover:bg-muted/20 transition-colors">
                   <div className="flex items-center gap-3">
                     <img 
-                      src="https://pub-37d61a7eb7ae432fb098830b67d7ddda.r2.dev/eloqura.png" 
+                      src="https://pub-37d61a7eb7ae45898b46702664710cb2.r2.dev/eloqura.png" 
                       alt="Eloqura"
                       className="h-8 w-8 rounded-md object-cover flex-shrink-0"
                       onError={(e) => {
