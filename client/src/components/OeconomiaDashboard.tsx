@@ -169,6 +169,14 @@ export default function OeconomiaDashboard() {
   });
 
   const brands = [
+    { 
+      name: 'Governance', 
+      logo: 'https://pub-37d61a7eb7ae45898b46702664710cb2.r2.dev/With%20Border/Governance%20Border.png' 
+    },
+    {
+      name: "Staking", 
+      logo: "https://pub-37d61a7eb7ae45898b46702664710cb2.r2.dev/With%20Border/Stake%20Border.png"
+    },
     {
       name: "Oeconomia",
       logo: "https://pub-37d61a7eb7ae45898b46702664710cb2.r2.dev/With%20Border/OEC%20Border.png"
@@ -188,14 +196,6 @@ export default function OeconomiaDashboard() {
     {
       name: "Iridescia",
       logo: "https://pub-37d61a7eb7ae45898b46702664710cb2.r2.dev/With%20Border/III%20Border.png"
-    },
-    {
-      name: "Staking", 
-      logo: "https://pub-37d61a7eb7ae45898b46702664710cb2.r2.dev/With%20Border/Stake%20Border.png"
-    },
-    { 
-      name: 'Governance', 
-      logo: 'https://pub-37d61a7eb7ae45898b46702664710cb2.r2.dev/With%20Border/Governance%20Border.png' 
     },
   ];
 
