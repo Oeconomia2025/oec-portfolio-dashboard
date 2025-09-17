@@ -154,7 +154,6 @@ export default function OeconomiaDashboard() {
   });
 
   // Collapsible section states
-  const [isProfileOpen, setIsProfileOpen] = useState(true);
   const [isPortfolioOpen, setIsPortfolioOpen] = useState(true);
   const [isOECOpen, setIsOECOpen] = useState(true);
   const [isELOQOpen, setIsELOQOpen] = useState(true);
@@ -234,32 +233,13 @@ export default function OeconomiaDashboard() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
 
         {/* Profile */}
-        <div className="mb-2">
-          <div className="rounded-2xl border border-border bg-card backdrop-blur shadow-lg overflow-hidden">
-            <Collapsible open={isProfileOpen} onOpenChange={setIsProfileOpen}>
-              <CollapsibleTrigger className="w-full">
-                <div className="flex items-center justify-between p-6 hover:bg-muted/20 transition-colors">
-                  <div className="flex items-center gap-2">
-                    <UserCircle2 className="h-5 w-5 text-primary" />
-                    <h2 className="text-lg font-semibold tracking-tight text-foreground">Profile</h2>
-                  </div>
-                  <ChevronDown className={`h-4 w-4 transition-transform ${isProfileOpen ? 'rotate-180' : ''}`} />
-                </div>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <div className="px-6 border-t border-border/50">
-                  <div className="flex items-center gap-4">
-                    <div className="h-16 w-16 rounded-2xl bg-muted border border-border grid place-items-center">
-                      <UserCircle2 className="h-9 w-9 text-muted-foreground" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="text-sm text-muted-foreground">Profile Name</div>
-                      <div className="text-lg font-semibold" data-testid="text-profile-name">Connect wallet to view profile</div>
-                    </div>
-                  </div>
-                </div>
-              </CollapsibleContent>
-            </Collapsible>
+        <div className="mb-6 flex items-center gap-4">
+          <div className="h-16 w-16 rounded-2xl bg-muted border border-border grid place-items-center">
+            <UserCircle2 className="h-9 w-9 text-muted-foreground" />
+          </div>
+          <div className="flex-1">
+            <div className="text-sm text-muted-foreground">Profile Name</div>
+            <div className="text-lg font-semibold" data-testid="text-profile-name">Connect wallet to view profile</div>
           </div>
         </div>
 
