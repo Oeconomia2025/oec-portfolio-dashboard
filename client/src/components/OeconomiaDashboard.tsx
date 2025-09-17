@@ -259,10 +259,10 @@ export default function OeconomiaDashboard() {
           </SidebarHeader>
 
           <SidebarContent>
+            {/* Oeconomia - Independent at the top */}
             <SidebarGroup>
               <SidebarGroupContent>
                 <SidebarMenu>
-                  {/* Oeconomia at the top */}
                   <SidebarMenuItem key={oeconomiaBrand.name}>
                     <SidebarMenuButton size="lg" tooltip={oeconomiaBrand.name} className="text-lg">
                       <img 
@@ -286,8 +286,14 @@ export default function OeconomiaDashboard() {
                       </span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
-                  
-                  {/* Other brands */}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+
+            {/* Other brands - Separate group */}
+            <SidebarGroup>
+              <SidebarGroupContent>
+                <SidebarMenu>
                   {brands.map((brand) => (
                     <SidebarMenuItem key={brand.name}>
                       <SidebarMenuButton size="lg" tooltip={brand.name} className="text-lg">
