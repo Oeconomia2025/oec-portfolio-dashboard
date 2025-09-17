@@ -175,7 +175,7 @@ export default function OeconomiaDashboard() {
     },
     {
       name: "Alluria",
-      logo: "https://pub-37d61a7eb7ae432fb098830b67d7ddda.r2.dev/alluria.png"
+      logo: "https://pub-37d61a7eb7ae45898b46702664710cb2.r2.dev/With%20Border/ALUR%20Border.png"
     },
     {
       name: "Eloqura",
