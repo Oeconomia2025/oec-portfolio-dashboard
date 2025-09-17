@@ -424,8 +424,21 @@ export default function OeconomiaDashboard() {
             <Collapsible open={isOECOpen} onOpenChange={setIsOECOpen}>
               <CollapsibleTrigger className="w-full">
                 <div className="flex items-center justify-between p-6 hover:bg-muted/20 transition-colors">
-                  <div className="flex items-center gap-2">
-                    <Coins className="h-5 w-5 text-primary" />
+                  <div className="flex items-center gap-3">
+                    <img 
+                      src="https://pub-37d61a7eb7ae432fb098830b67d7ddda.r2.dev/oeconomia.png" 
+                      alt="Oeconomia"
+                      className="h-8 w-8 rounded-md object-cover flex-shrink-0"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        const fallback = target.nextElementSibling as HTMLElement;
+                        if (fallback) {
+                          fallback.classList.remove('hidden');
+                        }
+                      }}
+                    />
+                    <Coins className="h-5 w-5 text-primary hidden" />
                     <h2 className="text-lg font-semibold tracking-tight text-foreground">OEC Token</h2>
                   </div>
                   <div className="flex items-center gap-2">
@@ -487,8 +500,21 @@ export default function OeconomiaDashboard() {
             <Collapsible open={isELOQOpen} onOpenChange={setIsELOQOpen}>
               <CollapsibleTrigger className="w-full">
                 <div className="flex items-center justify-between p-6 hover:bg-muted/20 transition-colors">
-                  <div className="flex items-center gap-2">
-                    <Coins className="h-5 w-5 text-secondary" />
+                  <div className="flex items-center gap-3">
+                    <img 
+                      src="https://pub-37d61a7eb7ae432fb098830b67d7ddda.r2.dev/eloqura.png" 
+                      alt="Eloqura"
+                      className="h-8 w-8 rounded-md object-cover flex-shrink-0"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        const fallback = target.nextElementSibling as HTMLElement;
+                        if (fallback) {
+                          fallback.classList.remove('hidden');
+                        }
+                      }}
+                    />
+                    <Coins className="h-5 w-5 text-secondary hidden" />
                     <h2 className="text-lg font-semibold tracking-tight text-foreground">ELOQ Token</h2>
                   </div>
                   <div className="flex items-center gap-2">
