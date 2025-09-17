@@ -262,7 +262,7 @@ export default function OeconomiaDashboard() {
                 <SidebarMenu>
                   {brands.map((brand) => (
                     <SidebarMenuItem key={brand.name}>
-                      <div className="flex items-center gap-3 p-2 text-sm hover:bg-sidebar-accent hover:text-sidebar-accent-foreground rounded-md transition-colors">
+                      <div className="flex items-center gap-3 p-2 text-lg hover:bg-sidebar-accent hover:text-sidebar-accent-foreground rounded-md transition-colors">
                         <img 
                           src={brand.logo} 
                           alt={brand.name}
