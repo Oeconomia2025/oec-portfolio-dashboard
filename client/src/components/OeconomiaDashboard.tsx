@@ -168,8 +168,6 @@ export default function OeconomiaDashboard() {
     network: "Ethereum"
   });
 
-  const [selectedBrand, setSelectedBrand] = useState("Oeconomia");
-
   const brands = [
     {
       name: "Oeconomia",
@@ -264,11 +262,7 @@ export default function OeconomiaDashboard() {
                 <SidebarMenu>
                   {brands.map((brand) => (
                     <SidebarMenuItem key={brand.name}>
-                      <SidebarMenuButton
-                        onClick={() => setSelectedBrand(brand.name)}
-                        isActive={selectedBrand === brand.name}
-                        className="flex items-center gap-3"
-                      >
+                      <div className="flex items-center gap-3 p-2 text-sm">
                         <img 
                           src={brand.logo} 
                           alt={brand.name}
@@ -284,7 +278,7 @@ export default function OeconomiaDashboard() {
                           <Coins className="h-4 w-4 text-muted-foreground" />
                         </div>
                         <span>{brand.name}</span>
-                      </SidebarMenuButton>
+                      </div>
                     </SidebarMenuItem>
                   ))}
                 </SidebarMenu>
@@ -311,7 +305,7 @@ export default function OeconomiaDashboard() {
                   <div>
                     <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
                       <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 via-cyan-400 to-purple-400">
-                        {selectedBrand} Dashboard
+                        Oeconomia Dashboard
                       </span>
                     </h1>
                     <p className="text-sm text-muted-foreground mt-1">Portfolio Management • Real-time DeFi Analytics</p>
@@ -649,7 +643,7 @@ export default function OeconomiaDashboard() {
         {/* Footer */}
             <footer className="mt-12 pt-8 border-t border-border" data-testid="dashboard-footer">
               <div className="flex items-center justify-between text-sm text-muted-foreground">
-                <div>© 2024 {selectedBrand} Dashboard. Portfolio management made simple.</div>
+                <div>© 2024 Oeconomia Dashboard. Portfolio management made simple.</div>
                 <div className="flex items-center gap-4">
                   <span>Last sync: <span data-testid="text-last-sync">Connect wallet for live sync</span></span>
                   <div className="flex items-center gap-1">
