@@ -247,16 +247,11 @@ export default function OeconomiaDashboard() {
       <div className="min-h-screen w-full bg-gradient-to-b from-gray-950 to-gray-900 text-foreground flex">
         <Sidebar>
           <SidebarHeader>
-            <div className="flex items-center gap-2 px-2 py-4">
-              <div className="h-8 w-8 rounded-lg bg-primary/10 grid place-items-center">
-                <Coins className="h-5 w-5 text-primary" />
-              </div>
-            </div>
           </SidebarHeader>
           
           <SidebarContent>
             <SidebarGroup>
-              <SidebarGroupLabel>Brands</SidebarGroupLabel>
+              <SidebarGroupLabel>Protocols</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   {brands.map((brand) => (
